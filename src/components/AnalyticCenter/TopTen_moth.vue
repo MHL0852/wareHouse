@@ -1,0 +1,162 @@
+<template>
+  <div class="inventory">
+    <div class="top">
+      <h4>{{msg.title}}</h4>
+    </div>
+    <div class="body">
+      <div id="charts">
+        <div id="main" ref="inventoryLine" style="width: 660px;height:329px;"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import echarts from "echarts"
+
+  export default {
+    name: "TopTen_month",
+    props: ["msg"],
+    mounted() {
+      let {inventory, company} = this.msg;
+      let myEchart = echarts.init(this.$refs.inventoryLine);
+      myEchart.setOption(
+        {
+          color: ["#2ec8ca"],
+          legend: {
+            right: "10%",
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '8%',
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis: {
+            name: '公司',
+            right:"10%",
+            nameLocation: "end",
+            nameGap:10,
+            splitArea: {
+              show: true
+            },
+            nameTextStyle: {
+              color: "#333",
+              fontSize: 14,
+              verticalAlign: "bottom",
+
+            },
+            axisLabel: {
+              color: "#a8a8a8",
+
+            },
+            type: 'category',
+            axisLine: {
+              show: "true",
+              lineStyle:
+                {
+                  color: "#eeeeee",
+                  width:
+                    2,
+                  type:
+                    'solid',
+                  opacity:
+                    1,
+                }
+            },
+            axisTick: {
+              show: true,
+              alignWithLabel:
+                true
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#ddd"
+              }
+            },
+            data: company
+          },
+          yAxis: [
+            {
+              type: 'value',
+
+              name: '金额',
+              min: 0,
+              max: 1200,
+              splitNumber: 5,
+              position: 'left',
+              splitArea: {
+                show: true
+              },
+              axisTick: {
+                show: false
+              },
+              axisLine: {
+                lineStyle: {
+                  color: "#008acd"
+                }
+              },
+              nameTextStyle: {
+                color: "#333",
+                fontSize: 14,
+                verticalAlign: "bottom",
+
+              },
+              axisLabel: {
+                color: "#727483",
+
+              },
+              splitLine: {
+                show: true,
+                lineStyle: {
+                  color: "#ddd"
+                }
+              },
+            }
+          ],
+          series: [{
+            itemStyle: {
+              barBorderRadius: [5,5,0,0],
+            },
+
+            barWidth: '60%',
+            data: [1200, 600, 350, 80, 70, 110, 130],
+            type: 'bar'
+          }]
+        }
+      )
+    }
+  }
+
+</script>
+
+<style scoped>
+  .inventory {
+    width: 660px;
+    height: 380px;
+    margin: 20px 0 0 20px;
+    display: inline-block;
+    float: left;
+    background: #fff;
+  }
+
+  .inventory .top {
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #e4e5e9
+  }
+
+  .inventory .top h4 {
+    height: 50px;
+    margin: 0;
+    padding-left: 20px;
+    line-height: 50px;
+  }
+</style>
