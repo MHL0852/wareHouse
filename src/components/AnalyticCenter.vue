@@ -43,7 +43,6 @@
 //TODO  头部模块第3/4/6/7个的数据没有
 
       this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerHotGoods&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
-        console.log(response, JSON.parse(response.data.data.data));
         this.hotCargodata[1].data = JSON.parse(response.data.data.data);
       }, err => {
         console.log(err);

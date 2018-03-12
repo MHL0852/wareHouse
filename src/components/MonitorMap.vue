@@ -19,8 +19,8 @@
 <script>
   import echarts from 'echarts'
   import Information from './secondWarehouse/Information'
-  import "E:/content/warehouse_back/node_modules/echarts/map/js/province/shanghai.js"
-  import "E:/content/warehouse_back/node_modules/echarts/map/js/china.js"
+  import "../../node_modules/echarts/map/js/province/shanghai.js"
+  import "../..//node_modules/echarts/map/js/china.js"
   import "../../static/map/echarts.min"
 
   export default {

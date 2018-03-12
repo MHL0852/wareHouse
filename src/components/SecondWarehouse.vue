@@ -303,7 +303,9 @@
 
         let res=JSON.parse(response.data.data.data);
         this.topData.allRepertory[0].number=res.existeVolume;
-        this.topData.allRepertory[1].number=Math.round(res.existeVolume/res.totalVolume);
+        let ratio = res.existeVolume/res.totalVolume>1?100:res.existeVolume/res.totalVolume*100;
+        ratio=ratio<0?0:ratio;
+        this.topData.allRepertory[1].number=Math.round(ratio);
       }, err => {
         console.log(err);
       });
