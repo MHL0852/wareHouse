@@ -20,6 +20,40 @@
     mounted() {
       let {inventory, sum, colors} = this.msg;
       let myEchart = echarts.init(this.$refs.inventoryLine);
+
+      let dateValue = [];
+
+      (function () {
+        let date = new Date();
+
+        let month = date.getMonth()+1,
+          dateDay =date.getDate();
+        for (let i = 0; i < 7; i++) {
+          if(dateDay>1){
+            dateDay--;
+            dateValue.unshift(month+"."+dateDay)
+          }else if(dateDay=1){
+            if(month===3){
+              month=month-1;
+              dateDay=28;
+              dateValue.unshift(month+"."+dateDay)
+            }else if(month===(2||4||6||8||9||11)){
+              month=month-1;
+              dateDay=31;
+              dateValue.unshift(month+"."+dateDay)
+            }else if( month===1){
+              month=12;
+              dateDay=31;
+              dateValue.unshift(month+"."+dateDay)
+            }else{
+              month=month-1;
+              dateDay=30;
+              dateValue.unshift(month+"."+dateDay)
+            }
+          }
+        }
+      })();
+
       myEchart.setOption(
         {
           color: colors,
@@ -34,7 +68,7 @@
           },
           legend: {
             data: [inventory.name, sum.name],
-            background:"#000",
+            background: "#000",
             textStyle: {
               color: '#727483'
             }
@@ -77,13 +111,13 @@
                 alignWithLabel:
                   true
               },
-              splitLine:{
-                show:true,
-                lineStyle:{
-                  color:"#ddd"
+              splitLine: {
+                show: true,
+                lineStyle: {
+                  color: "#ddd"
                 }
               },
-              data: ['2.3', '2.11', '2.15', '2.19', '2.23', '2.27', '3.2']
+              data: dateValue
             },
           yAxis: [
             {
@@ -114,10 +148,10 @@
                 color: "#727483",
 
               },
-              splitLine:{
-                show:true,
-                lineStyle:{
-                  color:"#ddd"
+              splitLine: {
+                show: true,
+                lineStyle: {
+                  color: "#ddd"
                 }
               },
             },
@@ -132,10 +166,10 @@
               splitArea: {
                 show: true
               },
-              splitLine:{
-                show:true,
-                lineStyle:{
-                  color:"#ddd"
+              splitLine: {
+                show: true,
+                lineStyle: {
+                  color: "#ddd"
                 }
               },
               axisTick: {
@@ -204,8 +238,8 @@
   }
 
   .inventory .top h4 {
-    color:#555;
-    font-size:.18rem;
+    color: #555;
+    font-size: .18rem;
     height: .50rem;
     margin: 0;
     padding-left: .20rem;

@@ -88,9 +88,9 @@
     methods: {
       getData() {
         this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.msg.id}`).then(response => {
-
           let data = response.data.data.data;
           data = JSON.parse(data);
+
           this.topValue.val[0].num = data.waitPickUpOrderNum;
           this.topValue.val[1].num = data.waitSendOrderNum;
           this.topValue.val[2].num = data.overOrderNumToday;
@@ -101,14 +101,14 @@
           console.log(err);
         });
 
-        this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.msg.id}`).then(response => {
+        this.$http.get(`http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.msg.id}`).then(response => {
           let data = response.data.data.data||
-            JSON.stringify({"wareHouseId" : 0, "totalVolume" : 0, "existeVolume" : 0});
+            JSON.stringify({"wareHouseId" : 0, "coldVolume" : 0, "freezeVolume" : 0,"coldVolumeTotal" : 0, "freezeVolumeTotal" : 0});
           data = JSON.parse(data);
-          this.topValue.wareAbout.cur = data.existeVolume;//总库存
-          this.bottomValue.wareAbout.cur = data.existeVolume;//TODO  只有总数据，没有冷冻冷藏分开的分数据
-          this.topValue.wareAbout.full = data.totalVolume;//总容积
-          this.bottomValue.wareAbout.full = data.totalVolume;
+          this.topValue.wareAbout.cur = data.coldVolume  ;//冷藏库存
+          this.bottomValue.wareAbout.cur = data.freezeVolume ;//冷冻库存
+          this.topValue.wareAbout.full = data.coldVolumeTotal;//冷藏总容积
+          this.bottomValue.wareAbout.full = data.freezeVolumeTotal;//冷冻总容积
           this.flag = true;
         }, err => {
           console.log(err);
@@ -146,6 +146,7 @@
     position: relative;
     display: inline-block;
     float: left;
+    border-bottom: 1px solid #2a2d3b;
     height: 100%;
     color: #fff;
     font-size: .24rem;
@@ -156,20 +157,21 @@
   }
 
   .warehouseDetail .navBox .navText {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.75rem 0 0 -.20rem;
+    margin: 0;
     text-align: center;
-    display: inline-block;
-    width: .40rem;
-    height: 1.80rem;
+    display: inline-flex;
+    display: -webkit-inline-flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0 .1rem;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    vertical-align: middle;
   }
 
   .warehouseDetail .body {
     position: relative;
+    float: right;
     display: inline-block;
     width: 8.81rem;
     height: 100%;

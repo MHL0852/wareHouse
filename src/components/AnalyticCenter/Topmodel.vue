@@ -38,9 +38,9 @@
 
   .topLeft .inner {
     position: absolute;
-    width: 1.90rem;
-    height: .50rem;
-    margin: -.25rem 0 0 -.95rem;
+    width: 2.1rem;
+    height: .60rem;
+    margin: -.3rem 0 0 -1.05rem;
     top: 50%;
     left: 50%;
   }
@@ -49,6 +49,7 @@
     width: .50rem;
     height: .50rem;
     display: inline-block;
+    margin-right: .2rem;
     float: left;
   }
 
@@ -56,7 +57,7 @@
     display: block;
     width: .50rem;
     height: .50rem;
-    margin: auto 0;
+    margin: 0.05rem 0 0;
   }
 
   .topLeft .text {
@@ -65,7 +66,7 @@
     margin-right: .20rem;
     color: #9ca1b2;
     font-weight: bold;
-    float: right;
+    float: left;
   }
 
   .topLeft .text .title {

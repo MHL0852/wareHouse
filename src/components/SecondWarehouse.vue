@@ -302,7 +302,7 @@
 
         this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.$route.params.bid}`).then(response => {
           let res = JSON.parse(response.data.data.data);
-
+          console.log(res,101010);
           this.topData.allRepertory[0].number = res.existeVolume;
           let ratio = res.existeVolume / res.totalVolume > 1 ? 100 : res.existeVolume / res.totalVolume * 100;
           ratio = ratio < 0 ? 0 : ratio;

@@ -25,7 +25,6 @@
     methods:{
       getData(){
         this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseReport&pageNumber=1&pageSize=4').then(response => {
-          console.log(JSON.parse(response.data.data.page).result);
           this.wareList = JSON.parse(response.data.data.page).result;
         }, err => {
           console.log(err);

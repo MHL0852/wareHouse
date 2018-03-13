@@ -239,9 +239,6 @@
   .coldStorage .underPie{
     text-align: center;
     width: 100%;
-  }
-
-  .coldStorage .underPie{
     font-size: .14rem;
     color:#9ca1b2;
   }

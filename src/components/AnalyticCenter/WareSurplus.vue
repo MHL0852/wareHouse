@@ -10,60 +10,75 @@
 </template>
 
 <script>
+  let name=[];
   import echarts from "echarts"
   export default {
     name: "WareSurplus",
     props:["msg"],
-    mounted() {
-      let myEchart = echarts.init(this.$refs.analyzePie);
-      myEchart.setOption({
-        legend: {
-          top:17,
-          left:20,
+    methods:{
+      getDate(){
+        let myEchart = echarts.init(this.$refs.analyzePie);
+        let data=[];
+        this.$http.get('http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=orgFontInventoryMessage&orgUnikey=2fdb81ee5e0b5e8bb488839b10a75cc4').then(response => {
+         let res=JSON.parse(response.data.data.data).mapList;
+         res.forEach(item=>{
+           name.push(item.wareHosueName);
+           data.push({
+             name:item.wareHosueName,
+             value:item.volume
+           })
+         });
 
-          emphasis: {
-            label: {
-              show: true,
-              formatter: "{b}\n{c} ({d}%)",
-              position: 'center',
-              textStyle: {
-                fontSize: '30',
-                fontWeight: 'bold'
-              }
-            }
-        },
-          textStyle: {
-            color: "#727581"
-          },
-          orient: 'vertical',
-          data: this.msg.names
-        },
-        color: this.msg.colors,
-        series: [
-          {
-            name: '访问来源',
-            type: 'pie',
-            radius: '60%',
-            center: ['50%', '55%'],
-            itemStyle: {
-              normal: {
+          myEchart.setOption({
+            legend: {
+              top:17,
+              left:20,
+
+              emphasis: {
                 label: {
                   show: true,
-                  formatter: '{b}'
+                  formatter: "{b}\n{c} ({d}%)",
+                  position: 'center',
+                  textStyle: {
+                    fontSize: '30',
+                    fontWeight: 'bold'
+                  }
                 }
               },
-              labelLine:{show:true}},
-            data: ((msg)=> {
-              let {names,values}=msg;
-              let arr=[];
-              for (let i = 0; i < names.length; i++) {
-               arr.push({value: values[i], name: names[i]},)
+              textStyle: {
+                color: "#727581"
+              },
+              orient: 'vertical',
+              data:name
+            },
+            color: this.msg.colors,
+            series: [
+              {
+                name: '访问来源',
+                type: 'pie',
+                radius: '60%',
+                center: ['50%', '55%'],
+                itemStyle: {
+                  normal: {
+                    label: {
+                      show: true,
+                      formatter: '{b}'
+                    }
+                  },
+                  labelLine:{show:true}},
+                data: data ,
               }
-              return arr
-            })(this.msg) ,
-          }
-        ]
-      })
+            ]
+          })
+        }, err => {
+          console.log(err);
+        });//仓库库存及饼图数据
+      }
+    },
+    mounted() {
+      this.getDate();
+
+
     }
   }
 </script>

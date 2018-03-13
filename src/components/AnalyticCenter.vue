@@ -15,6 +15,7 @@
 </template>
 
 <script>
+  let timer = null;
   import TopModel from './AnalyticCenter/Topmodel'
   import SevenDay from "./AnalyticCenter/sevenDay"
   import WareSurplus from "./AnalyticCenter/WareSurplus"
@@ -26,7 +27,6 @@
     methods:{
       getData() {
         this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=1&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
-
           this.topData[0].number = JSON.parse(response.data.data.data).total
         }, err => {
           console.log(err);
@@ -41,7 +41,13 @@
         }, err => {
           console.log(err);
         });
-//TODO  头部模块第3/4/6/7个的数据没有
+
+        this.$http.get('http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=orgFontInventoryMessage&orgUnikey=2fdb81ee5e0b5e8bb488839b10a75cc4').then(response => {
+          this.topData[2].number=JSON.parse(response.data.data.data).totalVolume.toFixed(1);
+        }, err => {
+          console.log(err);
+        });//仓库库存及饼图数据
+//TODO  头部模块第4/6/7个的数据没有
 
         this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerHotGoods&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.hotCargodata[1].data = JSON.parse(response.data.data.data);
@@ -51,7 +57,6 @@
       }
     },
     mounted() {
-      let timer = null;
       this.getData();
       if(timer){
         clearInterval(timer);
@@ -82,13 +87,13 @@
           {
             title: "前置仓库存量",
             number: "无数据",
-            unit: "元",
+            unit: "方",
             imgUrl: "../../../static/AnalyticCenter/center_03.png"
           },
           {
             title: "最新客户数",
             number: "无数据",
-            unit: "元",
+            unit: "人",
             imgUrl: "../../../static/AnalyticCenter/center_04.png"
           },
           {
@@ -105,7 +110,7 @@
           },
           {
             title: "代收货款",
-            number: 12600,
+            number: "无数据",
             unit: "元",
             imgUrl: "../../../static/AnalyticCenter/center_07.png"
           }
@@ -136,7 +141,7 @@
           title: "近七天平均客单价走势",
           unitPrice: {
             name: "客单价",
-            date: ["周四", "周五", "周六", "周日", "周一", "周二", "周三"],
+            date: ["周日","周一", "周二", "周三", "周四", "周五", "周六" ],
             value: [600.0, 520.9, 700.0, 823.2, 812.6, 914.7, 689.6]
           },
         },
