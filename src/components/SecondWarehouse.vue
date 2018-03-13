@@ -40,6 +40,7 @@
   import Inventory from "./secondWarehouse/Inventory"
   import Information from "./secondWarehouse/Information"
 
+  let timer;
 
   export default {
     name: "second-warehouse",
@@ -283,35 +284,42 @@
 
       }
     },
+    methods: {
+      getData() {
+        this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+          let res = JSON.parse(response.data.data.data);
+          this.topData.topRight[0].num1 = res.waitPickUpOrderNum;
+          this.topData.topRight[0].num2 = res.waitPickUpGoodsNum;
+
+          this.topData.topRight[1].num1 = res.waitSendOrderNum;
+          this.topData.topRight[1].num2 = res.waitSendGoodsNum;
+
+          this.topData.topRight[2].num1 = res.overOrderNumToday;
+          this.topData.topRight[2].num2 = res.overGoodsNumToday;
+        }, err => {
+          console.log(err);
+        });
+
+        this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+          let res = JSON.parse(response.data.data.data);
+
+          this.topData.allRepertory[0].number = res.existeVolume;
+          let ratio = res.existeVolume / res.totalVolume > 1 ? 100 : res.existeVolume / res.totalVolume * 100;
+          ratio = ratio < 0 ? 0 : ratio;
+          this.topData.allRepertory[1].number = Math.round(ratio);
+        }, err => {
+          console.log(err);
+        });
+      }
+    },
     mounted() {
-      this.$http.get(`http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.$route.params.bid}`).then(response => {
-
-        let res=JSON.parse(response.data.data.data);
-        this.topData.topRight[0].num1=res.waitPickUpOrderNum;
-        this.topData.topRight[0].num2=res.waitPickUpGoodsNum;
-
-        this.topData.topRight[1].num1=res.waitSendOrderNum;
-        this.topData.topRight[1].num2=res.waitSendGoodsNum;
-
-        this.topData.topRight[2].num1=res.overOrderNumToday;
-        this.topData.topRight[2].num2=res.overGoodsNumToday;
-      }, err => {
-        console.log(err);
-      });
-
-      this.$http.get(`http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.$route.params.bid}`).then(response => {
-
-        let res=JSON.parse(response.data.data.data);
-        this.topData.allRepertory[0].number=res.existeVolume;
-        let ratio = res.existeVolume/res.totalVolume>1?100:res.existeVolume/res.totalVolume*100;
-        ratio=ratio<0?0:ratio;
-        this.topData.allRepertory[1].number=Math.round(ratio);
-      }, err => {
-        console.log(err);
-      });
-
-
-
+      this.getData();
+      if (timer) {
+        clearInterval(timer)
+      }
+      timer=setInterval(()=>{
+        this.getData()
+      },120000)
     },
     components: {
       TopLeft,
@@ -329,76 +337,83 @@
   .back {
     margin: 0 auto;
     padding: 0;
-    width: 1920px;
-    height: 900px;
+    width: 19.20rem;
+    height: 9.00rem;
     background: #2a2d3b;
   }
 
   .back .container {
-    padding: 10px;
+    padding: .09rem;
     margin: 0;
   }
 
   .back .container .nav {
-    width: 1901px;
-    height: 120px;
+    width: 19.01rem;
+    height: 1.20rem;
   }
 
   .back .container .body {
-    width: 1900px;
-    height: 735px;
+    width: 19.00rem;
+    height: 7.35rem;
   }
 
   .container .body .bodyLeft {
-    width: 1450px;
+    width: 14.50rem;
     display: inline-block;
     float: left;
   }
 
   .container .body .bodyRight {
-    width: 430px;
-    height: 625px;
+    width: 4.30rem;
+    height: 6.25rem;
     display: inline-block;
     float: right;
-    margin: 10px;
+    margin: .09rem;
   }
 
   .container .informationBox {
     display: inline-block;
     float: left;
-    width: 420px;
-    height: 360px;
-    margin: 10px;
+    width: 4.20rem;
+    height: 3.60rem;
+    margin: .09rem;
   }
 
   .container .on_off_box {
-    width: 429px;
+    width: 4.29rem;
+    height: 6.07rem;
     background: #343743;
   }
 
   .body .bodyRight .video {
     position: relative;
     background: #0085c5;
-    width: 429px;
-    height: 106px;
-    margin-top: 25px;
+    width: 4.29rem;
+    height: 1.06rem;
+    margin-top: .24rem;
   }
 
   .body .video .videoContent {
-    padding: 0 10px 0;
+    padding: 0 .09rem 0;
     display: block;
-    height: 30px;
-    width: 190px;
+    height: .30rem;
+    width: 1.90rem;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -15px 0 0 -95px;
+    margin: -.145rem 0 0 -.945rem;
+  }
+
+  .video .videoContent img {
+    display: inline-block;
+    float: left;
   }
 
   .video .videoContent span {
+    display: inline-block;
     float: right;
-    line-height: 30px;
-    font-size: 28px;
+    line-height: .30rem;
+    font-size: .28rem;
     color: #fff;
   }
 </style>

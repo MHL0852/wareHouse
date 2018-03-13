@@ -33,9 +33,9 @@
 .topRight{
   display: inline-block;
   float: left;
-  margin:10px;
-  width: 325px;
-  height: 100px;
+  margin:.10rem;
+  width: 3.25rem;
+  height: 1.00rem;
   position: relative;
   background: #343743;
   font-weight: bold;
@@ -44,25 +44,26 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -30px 0 0 -130px;
-    height: 60px;
-    width: 260px;
+    margin: -.30rem 0 0 -1.30rem;
+    height: .60rem;
+    width: 2.60rem;
   }
 
 .topRight .inner .pic{
-  width: 40px;
-  height: 40px;
-  margin: 10px 20px 0 0 ;
+  width: .40rem;
+  height: .40rem;
+  margin: .10rem .20rem 0 0 ;
   display: inline-block;
   float: left;
 }
 .inner .pic img{
+  display: block;
   width: 100%;
   height: 100%;
 }
   .inner .text{
     color:#9ca1b2;
-    font-size: 14px;
+    font-size: .14rem;
   }
 .inner .text .title{
   margin:0
@@ -76,17 +77,17 @@
 .inner .text .line{
   display: inline-block;
   float: left;
-  margin:0 15px;
-  width: 1px;
-  height: 40px;
+  margin:0 .15rem;
+  width:1px;
+  height: .40rem;
   background: linear-gradient(to bottom,#343743,#9ca1b2,#343743);
 }
 
 .inner .text .num{
-  font-size:28px;
+  font-size:.28rem;
   color:#fff;
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: .10rem;
 }
 
 

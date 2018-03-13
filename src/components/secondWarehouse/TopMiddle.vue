@@ -42,16 +42,16 @@
   .topMiddle {
     display: inline-block;
     float: left;
-    margin:10px;
-    width: 326px;
-    height: 100px;
+    margin:.10rem;
+    width: 3.26rem;
+    height: 1.00rem;
   }
 
   .ware {
     position: relative;
     display: inline-block;
-    width: 161px;
-    height: 100px;
+    width: 1.61rem;
+    height: 1.00rem;
     background: #343743;
     float: left;
   }
@@ -61,29 +61,30 @@
   }
 
   .contentRight {
-    width: 162px;
+    width: 1.62rem;
   }
 
   .content {
     position: absolute;
-    width: 115px;
-    height: 60px;
-    margin: -30px 0 0 -55px;
+    width: 1.2rem;
+    height: .60rem;
+    margin: -.30rem 0 0 -.55rem;
     top: 50%;
     left: 50%;
   }
 
   .topMiddle .pic {
-    margin: 10px 5px 0 0;
-    width: 40px;
-    height: 40px;
+    margin: .10rem .1rem 0 0;
+    width: .40rem;
+    height: .40rem;
     display: inline-block;
     float: left;
   }
 
   .topMiddle .pic img {
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
   .topMiddle .text {
@@ -91,7 +92,7 @@
     top: 0;
     right: 0;
     display: inline-block;
-    font-size: 14px;
+    font-size: .14rem;
     color: #9ca1b2;
     font-weight: bold;
     float: right;
@@ -102,10 +103,10 @@
   }
 
   .text .number {
-    font-size: 28px;
+    font-size: .28rem;
     color: #fff;
     font-weight: bold;
-    margin-right: 5px;
+    margin-right:.05rem;
   }
 
   .contentRight {

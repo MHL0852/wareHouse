@@ -3,7 +3,7 @@
     <div class="top"><h4>各货主库存分析</h4></div>
     <div class="body">
       <div class="pie" id="charts">
-        <div id="main" ref="analyzePie" style="width: 400px;height:300px;"></div>
+        <div id="main" ref="analyzePie" style="width: 4rem;height:3rem;"></div>
       </div>
     </div>
   </div>
@@ -19,6 +19,7 @@
 
       this.$http.get(`http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringPieChartReport&wareHouseId=${this.$route.params.bid}`).then(response => {
         let res=JSON.parse(response.data.data.data);
+        console.log(res);
         let wareHouseVolumn=res[0].wareHouseVolumn;
         let names=[],
           values=[],
@@ -93,32 +94,33 @@
 <style scoped>
   .analyze {
     display: inline-block;
-    margin:10px;
+    margin:.10rem;
     padding:0;
     float:left;
-    width: 420px;
-    height: 360px;
+    width: 4.20rem;
+    height: 3.60rem;
     background: #343743;
   }
 
   .analyze .top {
     width: 100%;
-    height: 50px;
-    font-size: 18px;
+    height: .50rem;
+    font-size: .18rem;
     color: #fff;
     border-bottom: 1px solid #5b5f66
   }
 
   .analyze .top h4 {
-    height: 50px;
+    font-size:.18rem;
+    height: .50rem;
     margin:0;
-    padding-left: 20px;
-    line-height: 50px;
+    padding-left: .20rem;
+    line-height: .50rem;
   }
 
   .pie {
     border-top: 1px solid #5b5f66;
     width: 100%;
-    height: 308px;
+    height: 3.08rem;
   }
 </style>

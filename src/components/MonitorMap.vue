@@ -117,30 +117,32 @@
         {name: "一号仓", value: [121.134, 31.025, 200]},
         {name: "一号仓", value: [121.621, 30.625, 200]},
         {name: "一号仓", value: [121.331, 31.55, 200]}
-      ]
+      ];//仓库数据
       let shop = [
         {name: "一号店", value: [121.111, 31.025, 150]},
-        {name: "一号店", value: [122.111, 31.325, 150]},
+        {name: "一号店", value: [121.111, 31.325, 150]},
         {name: "一号店", value: [121.1223, 30.675, 150]},
         {name: "一号店", value: [121.3435, 30.825, 150]},
         {name: "一号店", value: [121.334, 30.925, 150]},
-        {name: "一号店", value: [121.121, 30.325, 150]},
-        {name: "一号店", value: [120.631, 31.25, 150]}
-      ];
+        {name: "一号店", value: [121.421, 31.325, 150]},
+        {name: "一号店", value: [121.231, 31.25, 150]}
+      ];//店铺数据
       let car = [
-        {name: "一号车", value: [122.111, 31.025, 100]},
+        {name: "一号车", value: [122.111, 31.525, 100]},
         {name: "一号车", value: [122.111, 31.325, 100]},
         {name: "一号车", value: [121.1223, 31.675, 100]},
         {name: "一号车", value: [121.3435, 31.825, 100]},
         {name: "一号车", value: [121.334, 31.925, 100]},
         {name: "一号车", value: [121.421, 30.725, 100]},
         {name: "一号车", value: [121.631, 31.25, 100]}
-      ];
+      ];//车辆数据
       let option = {
-        color: ["#f6f7f9", "#12dee9", "#2587f2"],
+        color: ["#f6f7f9", "#12dee9", "#2587f2"],//色盘
         geo: {
           map: '上海',
-          roam:true,
+          left:"20%",
+          right:"45%",
+          roam: true,
           itemStyle: {
             normal: {
               color: "#2a2b3c",
@@ -161,6 +163,13 @@
             name: "仓库",
             type: "scatter",
             coordinateSystem: 'geo',
+            symbol:"diamond",
+            symbolSize:18,
+            itemStyle:{
+              color:"#f6f7f9",
+              shadowColor:"#f6f7f9",
+              shadowBlur:"10"
+            },
 
             data: ware,
           },
@@ -168,6 +177,13 @@
             name: "门店",
             type: "scatter",
             coordinateSystem: 'geo',
+            symbolSize:15,
+            itemStyle:{
+              color:"#12dee9",
+              shadowColor:"#12dee9",
+              shadowBlur:"10"
+            },
+
 
             data: shop,
           },
@@ -175,6 +191,12 @@
             name: "车",
             type: "scatter",
             coordinateSystem: 'geo',
+            symbol:"rect",
+            itemStyle:{
+              color:"#2587f2",
+              shadowColor:"2587f2",
+              shadowBlur:"10"
+            },
 
             data: car,
           }
@@ -188,8 +210,9 @@
 
 <style scoped>
   .map {
-    width: 1920px;
-    height: 900px;
+    font-size:0.18rem;
+    width: 19.2rem;
+    height: 9rem;
     margin: auto;
     position: relative;
     background: #2a2c3b;
@@ -197,33 +220,33 @@
 
   .map .info {
     position: absolute;
-    right: 20px;
-    bottom: 20px;
-    width: 420px;
-    height: 550px;
+    right: 0.2rem;
+    bottom: 0.2rem;
+    width: 4.2rem;
+    height: 5.5rem;
   }
 
   .map .info .top, .bottom {
-    width: 420px;
+    width: 4.2rem;
     background: #343643;
   }
 
   .map .info .top {
-    height: 170px;
-    margin-bottom: 20px;
+    height: 1.7rem;
+    margin-bottom: 0.2rem;
   }
 
   .map .info .top {
     color: #fff;
-    padding: 25.5px 83px 0;
-    font-size: 20px;
+    padding: 0.255rem 0.83rem 0;
+    font-size: 0.2rem;
     font-weight: bold;
   }
 
   .map .info .type {
-    line-height: 22px;
-    height: 22px;
-    margin-bottom: 27.5px;
+    line-height: 0.22rem;
+    height: 0.22rem;
+    margin-bottom: 0.275rem;
   }
 
   .map .info span {
@@ -232,9 +255,9 @@
   }
 
   .map .info .num {
-    width: 50px;
-    height: 22px;
-    line-height: 22px;
+    width: 0.5rem;
+    height: 0.22rem;
+    line-height: 0.22rem;
     text-align: center;
     float: right;
   }
@@ -244,14 +267,14 @@
   }
 
   .map .info .tip {
-    margin: 1px 10px 1px 0;
-    width: 35px;
-    height: 20px;
+    margin: 0.01rem 0.1rem 0.01rem 0;
+    width: 0.35rem;
+    height: 0.2rem;
     box-shadow: 0 0 1px 2px #000 inset;
   }
 
   .map .info .bottom {
-    width: 420px;
-    height: 360px;
+    width: 4.2rem;
+    height: 3.6rem;
   }
 </style>

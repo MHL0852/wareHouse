@@ -5,7 +5,7 @@
     </div>
     <div class="body">
       <div id="charts">
-        <div id="main" ref="temperatureLine" style="width: 660px;height:329px;"></div>
+        <div id="main" ref="temperatureLine" style="width: 6.60rem;height:3.29rem;"></div>
       </div>
     </div>
   </div>
@@ -130,10 +130,10 @@ return{
   .temperature {
     display: inline-block;
     float: left;
-    margin: 20px 0 0 20px;
+    margin: .20rem 0 0 .20rem;
     padding:0;
-    width: 660px;
-    height: 380px;
+    width: 6.60rem;
+    height: 3.80rem;
     background: #fff;
   }
   #noUse{
@@ -141,10 +141,10 @@ return{
   }
   .temperature .top h4{
     color:#555;
-    font-size: 18px;
-    line-height: 50px;
+    font-size: .18rem;
+    line-height: .50rem;
     margin:0;
-    padding-left: 20px;
+    padding-left: .20rem;
     border-bottom: 1px solid #e4e5e9
   }
 </style>

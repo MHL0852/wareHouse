@@ -21,32 +21,47 @@
   import TopTen_month from "./AnalyticCenter/TopTen_moth"
   import UnitPrice from "./AnalyticCenter/UnitPrice"
   import HotCargo from "./AnalyticCenter/HotCargo"
-
   export default {
     name: "analytic-center",
-    mounted() {
-      this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=1&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
-        this.topData[0].number = JSON.parse(response.data.data.data).total
-      }, err => {
-        console.log(err);
-      });
-      this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=2&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
-        this.topData[1].number = JSON.parse(response.data.data.data).total
-      }, err => {
-        console.log(err);
-      });
-      this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=3&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
-        this.topData[4].number = JSON.parse(response.data.data.data).total
-      }, err => {
-        console.log(err);
-      });
+    methods:{
+      getData() {
+        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=1&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+
+          this.topData[0].number = JSON.parse(response.data.data.data).total
+        }, err => {
+          console.log(err);
+        });
+        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=2&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+          this.topData[1].number = JSON.parse(response.data.data.data).total
+        }, err => {
+          console.log(err);
+        });
+        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=3&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+          this.topData[4].number = JSON.parse(response.data.data.data).total
+        }, err => {
+          console.log(err);
+        });
 //TODO  头部模块第3/4/6/7个的数据没有
 
-      this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerHotGoods&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
-        this.hotCargodata[1].data = JSON.parse(response.data.data.data);
-      }, err => {
-        console.log(err);
-      });//七日高消费产品
+        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerHotGoods&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+          this.hotCargodata[1].data = JSON.parse(response.data.data.data);
+        }, err => {
+          console.log(err);
+        });//七日高消费产品
+      }
+    },
+    mounted() {
+      let timer = null;
+      this.getData();
+      if(timer){
+        clearInterval(timer);
+        timer=null;
+      }
+      timer = setInterval(
+        () => {
+          this.getData()
+        }, 120000);
+
 
     },
     data() {
@@ -54,37 +69,37 @@
         topData: [
           {
             title: "昨日销售额",
-            number: 12600,
+            number: "无数据",
             unit: "元",
             imgUrl: "../../../static/AnalyticCenter/center_01.png"
           },
           {
             title: "本月销售额",
-            number: 12600,
+            number: "无数据",
             unit: "元",
             imgUrl: "../../../static/AnalyticCenter/center_02.png"
           },
           {
             title: "前置仓库存量",
-            number: 12600,
+            number: "无数据",
             unit: "元",
             imgUrl: "../../../static/AnalyticCenter/center_03.png"
           },
           {
             title: "最新客户数",
-            number: 12600,
+            number: "无数据",
             unit: "元",
             imgUrl: "../../../static/AnalyticCenter/center_04.png"
           },
           {
             title: "近七天平均客单价",
-            number: 12600,
+            number: "无数据",
             unit: "元",
             imgUrl: "../../../static/AnalyticCenter/center_05.png"
           },
           {
             title: "应付物流费",
-            number: 12600,
+            number: "无数据",
             unit: "元",
             imgUrl: "../../../static/AnalyticCenter/center_06.png"
           },
@@ -309,21 +324,21 @@
 
   .analyticCenter {
     margin: 0 auto;
-    width: 1380px;
+    width: 13.80rem;
     background: #e4e5ea;
   }
 
   .analyticCenter .top {
-    padding: 10px;
-    height: 310px;
+    padding: .10rem;
+    height: 3.10rem;
   }
 
   .analyticCenter .top h5 {
     margin: 0;
-    line-height: 50px;
-    font-size: 23px;
+    line-height: .50rem;
+    font-size: .23rem;
     color: #555555;
-    padding-left: 10px;
+    padding-left: .10rem;
   }
 
 </style>

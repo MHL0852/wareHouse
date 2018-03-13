@@ -4,8 +4,8 @@
       <p class="navText">{{msg.name}}</p>
     </div>
     <div class="body">
-      <TopPart :msg="topValue"></TopPart>
-      <ButtonPart :msg="bottomValue"></ButtonPart>
+      <TopPart :msg="topValue" v-if="flag"></TopPart>
+      <ButtonPart :msg="bottomValue" v-if="flag"></ButtonPart>
     </div>
   </div>
 </template>
@@ -13,112 +13,133 @@
 <script>
   import TopPart from './TopPart'
   import ButtonPart from './ButtonPart'
-    export default {
-        name: "part",
-      props:["msg"],
-      data(){
-          return {
-            name: '仓库1',
-            topValue: {
-              wareAbout:{
-                imgUrl:"../../../static/FirstWarehouse/ware_07.png",
-                full:100,
-                cur:0,
-                wareName:"冷藏库",
-                temperature:5
-              },
-              val: [
-                {
-                  num: 0,
-                  unit: '单',
-                  imgUrl: "../../../static/FirstWarehouse/ware_01.png",
-                  style: "待备货单量"
-                },
-                {
-                  num: 0,
-                  unit: '单',
-                  imgUrl: "../../../static/FirstWarehouse/ware_03.png",
-                  style: "待发货单量"
-                },
-                {
-                  num: 0,
-                  unit: '单',
-                  imgUrl: "../../../static/FirstWarehouse/ware_05.png",
-                  style: "今日已完成单量"
-                }
-              ]
 
+  let timer;
+
+  export default {
+    name: "part",
+    props: ["msg"],
+    data() {
+      return {
+        flag: false,
+        name: '仓库1',
+        topValue: {
+          wareAbout: {
+            imgUrl: "../../../static/FirstWarehouse/ware_07.png",
+            full: 0,
+            cur: 0,
+            wareName: "冷藏库",
+            temperature: 5
+          },
+          val: [
+            {
+              num: 0,
+              unit: '单',
+              imgUrl: "../../../static/FirstWarehouse/ware_01.png",
+              style: "待备货单量"
             },
-            bottomValue:{
-              wareAbout: {
-                wareName: "冷冻仓",
-                temperature: -15,
-                full:100,
-                cur:100,
-                imgUrl: "../../../static/FirstWarehouse/ware_08.png"
-              },
-              val: [
-                {
-                  num: 0,
-                  unit: '件',
-                  imgUrl: "../../../static/FirstWarehouse/ware_02.png",
-                  style: "待备货件数"
-                },
-                {
-                  num: 0,
-                  unit: '件',
-                  imgUrl: "../../../static/FirstWarehouse/ware_04.png",
-                  style: "待发货件量数"
-                },
-                {
-                  num: 0,
-                  unit: '件',
-                  imgUrl: "../../../static/FirstWarehouse/ware_06.png",
-                  style: "今日已完成件量数"
-                }
-              ]
+            {
+              num: 0,
+              unit: '单',
+              imgUrl: "../../../static/FirstWarehouse/ware_03.png",
+              style: "待发货单量"
+            },
+            {
+              num: 0,
+              unit: '单',
+              imgUrl: "../../../static/FirstWarehouse/ware_05.png",
+              style: "今日已完成单量"
             }
-          }
-          //TODO 温度没数据
-      },
-      mounted(){
-        this.$http.get(`http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.msg.id}`).then(response => {
-          let data = JSON.parse(response.data.data.data);
-          this.topValue.val[0].num=data.waitPickUpOrderNum;
-          this.topValue.val[1].num=data.waitSendOrderNum;
-          this.topValue.val[2].num=data.overOrderNumToday;
-          this.bottomValue.val[0].num=data.waitPickUpGoodsNum;
-          this.bottomValue.val[1].num=data.waitSendGoodsNum;
-          this.bottomValue.val[2].num=data.overGoodsNumToday;
-        }, err => {
-          console.log(err);
-        });
-        this.$http.get(`http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.msg.id}`).then(response => {
-let data=JSON.parse(response.data.data.data);
-          this.topValue.wareAbout.cur=data.existeVolume;//总库存
-          this.bottomValue.wareAbout.cur=data.existeVolume;//TODO  只有总数据，没有冷冻冷藏分开的分数据
-          this.topValue.wareAbout.full=data.totalVolume;//总容积
-          this.bottomValue.wareAbout.full=data.totalVolume;
-        }, err => {
-          console.log(err);
-        });
-      },
-      components:{
-        TopPart,
-        ButtonPart
+          ]
+
+        },
+        bottomValue: {
+          wareAbout: {
+            wareName: "冷冻仓",
+            temperature: -15,
+            full: 0,
+            cur: 0,
+            imgUrl: "../../../static/FirstWarehouse/ware_08.png"
+          },
+          val: [
+            {
+              num: 0,
+              unit: '件',
+              imgUrl: "../../../static/FirstWarehouse/ware_02.png",
+              style: "待备货件数"
+            },
+            {
+              num: 0,
+              unit: '件',
+              imgUrl: "../../../static/FirstWarehouse/ware_04.png",
+              style: "待发货件量数"
+            },
+            {
+              num: 0,
+              unit: '件',
+              imgUrl: "../../../static/FirstWarehouse/ware_06.png",
+              style: "今日已完成件量数"
+            }
+          ]
+        }
       }
+      //TODO 温度没数据
+    },
+    methods: {
+      getData() {
+        this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.msg.id}`).then(response => {
+
+          let data = response.data.data.data;
+          data = JSON.parse(data);
+          this.topValue.val[0].num = data.waitPickUpOrderNum;
+          this.topValue.val[1].num = data.waitSendOrderNum;
+          this.topValue.val[2].num = data.overOrderNumToday;
+          this.bottomValue.val[0].num = data.waitPickUpGoodsNum;
+          this.bottomValue.val[1].num = data.waitSendGoodsNum;
+          this.bottomValue.val[2].num = data.overGoodsNumToday;
+        }, err => {
+          console.log(err);
+        });
+
+        this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.msg.id}`).then(response => {
+          let data = response.data.data.data||
+            JSON.stringify({"wareHouseId" : 0, "totalVolume" : 0, "existeVolume" : 0});
+          data = JSON.parse(data);
+          this.topValue.wareAbout.cur = data.existeVolume;//总库存
+          this.bottomValue.wareAbout.cur = data.existeVolume;//TODO  只有总数据，没有冷冻冷藏分开的分数据
+          this.topValue.wareAbout.full = data.totalVolume;//总容积
+          this.bottomValue.wareAbout.full = data.totalVolume;
+          this.flag = true;
+        }, err => {
+          console.log(err);
+        });
+      }
+    },
+    mounted() {
+      this.getData();
+      if(timer){
+        clearInterval(timer)
+      }
+      timer=setInterval(()=>{
+        this.getData()
+      },120000);
+    },
+    components: {
+      TopPart,
+      ButtonPart
     }
+  }
 
 </script>
 
 <style scoped>
 
-   .warehouseDetail {
+  .warehouseDetail {
     display: inline-block;
     float: left;
-    width: 931px;
-    height: 419px;
-    margin: 10px 9px 10px 10px;
+    width: 9.31rem;
+    height: 4.19rem;
+    margin: .10rem .09rem .10rem .10rem;
   }
 
   .warehouseDetail .navBox {
@@ -127,10 +148,10 @@ let data=JSON.parse(response.data.data.data);
     float: left;
     height: 100%;
     color: #fff;
-    font-size: 24px;
+    font-size: .24rem;
     font-weight: bold;
     font-family: "Microsoft YaHei";
-    width: 50px;
+    width: .50rem;
     background: #5d5e69;
   }
 
@@ -138,11 +159,11 @@ let data=JSON.parse(response.data.data.data);
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -75px 0 0 -20px;
+    margin: -.75rem 0 0 -.20rem;
     text-align: center;
     display: inline-block;
-    width: 40px;
-    height: 180px;
+    width: .40rem;
+    height: 1.80rem;
     overflow: hidden;
     vertical-align: middle;
   }
@@ -150,12 +171,12 @@ let data=JSON.parse(response.data.data.data);
   .warehouseDetail .body {
     position: relative;
     display: inline-block;
-    width: 881px;
+    width: 8.81rem;
     height: 100%;
   }
 
   .coldStorage ul {
-    width: 881px;
+    width: 8.81rem;
     height: 100%;
   }
 

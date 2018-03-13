@@ -29,40 +29,40 @@
   .topLeft {
     display: inline-block;
     float:left;
-    margin: 10px;
+    margin: .10rem;
     position: relative;
-    width: 240px;
-    height: 100px;
+    width: 2.40rem;
+    height: 1.00rem;
     background: #343743;
   }
 
   .topLeft .inner {
     position: absolute;
-    width: 170px;
-    height: 60px;
-    margin: -25px 0 0 -85px;
+    width: 1.70rem;
+    height: .60rem;
+    margin: -.25rem 0 0 -.85rem;
     top: 50%;
     left: 50%;
   }
 
   .topLeft .pic {
-    margin-top:10px;
-    width: 40px;
-    height: 40px;
+    margin-top:.10rem;
+    width: .42rem;
+    height: .42rem;
     display: inline-block;
     float: left;
   }
 
   .topLeft .pic img {
-    width: 40px;
-    height: 40px;
-    margin: auto 0;
+    display: block;
+    width: 100%;
+    height:100%;
   }
 
   .topLeft .text {
     display: inline-block;
-    font-size: 14px;
-    margin-right: 20px;
+    font-size: .14rem;
+    margin-right: .20rem;
     color: #9ca1b2;
     font-weight: bold;
     float: right;
@@ -74,10 +74,10 @@
   }
 
   .text .bottom .num{
-    font-size:28px;
+    font-size:.28rem;
     color:#fff;
     font-weight: bold;
-    margin-right: 5px;
+    margin-right:.05rem;
   }
 
 </style>

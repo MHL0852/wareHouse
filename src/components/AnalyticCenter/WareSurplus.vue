@@ -3,7 +3,7 @@
     <div class="top"><h4>各货主库存分析</h4></div>
     <div class="body">
       <div class="pie" id="charts">
-        <div id="main" ref="analyzePie" style="width: 485px;height:349px;"></div>
+        <div id="main" ref="analyzePie" style="width: 4.85rem;height:3.49rem;"></div>
       </div>
     </div>
   </div>
@@ -71,31 +71,32 @@
 <style scoped>
   .analyze {
     display: inline-block;
-    margin:0 0 0 20px;
+    margin:0 0 0 .20rem;
     padding:0;
     float:left;
-    width: 485px;
-    height: 400px;
+    width: 4.85rem;
+    height: 4.00rem;
     background: #fff;
   }
 
   .analyze .top {
     width: 100%;
-    height: 50px;
-    font-size: 18px;
+    height: .50rem;
+    font-size: .18rem;
     border-bottom: 1px solid #e4e5e9
   }
 
   .analyze .top h4 {
-    height: 50px;
+    height: .50rem;
+    font-size: .18rem;
     margin:0;
-    padding-left: 20px;
-    line-height: 50px;
+    padding-left: .20rem;
+    line-height: .50rem;
   }
 
   .pie {
     border-top: 1px solid #5b5f66;
     width: 100%;
-    height: 308px;
+    height: 3.08rem;
   }
 </style>

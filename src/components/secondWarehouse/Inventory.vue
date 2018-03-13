@@ -5,7 +5,7 @@
     </div>
     <div class="body">
       <div id="charts">
-        <div id="main" ref="inventoryLine" style="width: 988px;height:310px;"></div>
+        <div id="main" ref="inventoryLine" style="width: 9.88rem;height:3.10rem;"></div>
       </div>
     </div>
   </div>
@@ -178,9 +178,9 @@
 
 <style scoped>
   .inventory {
-    width: 990px;
-    height: 360px;
-    margin: 10px;
+    width: 9.90rem;
+    height: 3.60rem;
+    margin: .10rem;
     display: inline-block;
     float: left;
     background: #343743;
@@ -188,16 +188,17 @@
 
   .inventory .top {
     width: 100%;
-    height: 50px;
-    font-size: 18px;
+    height: .50rem;
+    font-size: .18rem;
     color: #fff;
     border-bottom: 1px solid #5b5f66
   }
 
   .inventory .top h4 {
-    height: 50px;
+    font-size:0.18rem;
+    height: .50rem;
     margin: 0;
-    padding-left: 20px;
-    line-height: 50px;
+    padding-left: .20rem;
+    line-height: .50rem;
   }
 </style>
