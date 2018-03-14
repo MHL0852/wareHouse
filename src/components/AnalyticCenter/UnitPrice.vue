@@ -13,6 +13,7 @@
 
 <script>
   import echarts from "echarts"
+  import {getLacation} from "../../API"
 
   export default {
     name: "UnitPrice",
@@ -32,7 +33,7 @@
          dateVale.push(unitPrice.date[today]);
          today>=6?today=0:today++;
         }
-        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerPerDaySalesAmount&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+        this.$http.get(getLacation+'?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerPerDaySalesAmount&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           value = JSON.parse(response.data.data.data).perDateCost;
           isNaN(value[0])?value=[0,1,2,3,4,5,6]:null;
           myEchart.setOption(

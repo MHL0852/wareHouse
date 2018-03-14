@@ -39,6 +39,7 @@
   import Temperature from "./secondWarehouse/temperature"
   import Inventory from "./secondWarehouse/Inventory"
   import Information from "./secondWarehouse/Information"
+  import {getLacation} from "../API"
 
   let timer;
 
@@ -286,8 +287,9 @@
     },
     methods: {
       getData() {
-        this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+        this.$http.get(`${getLacation}?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.$route.params.bid}`).then(response => {
           let res = JSON.parse(response.data.data.data);
+
           this.topData.topRight[0].num1 = res.waitPickUpOrderNum;
           this.topData.topRight[0].num2 = res.waitPickUpGoodsNum;
 
@@ -300,12 +302,15 @@
           console.log(err);
         });
 
-        this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.$route.params.bid}`).then(response => {
-          let res = JSON.parse(response.data.data.data);
+        this.$http.get(`${getLacation}?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+          let res = response.data.data.data?JSON.parse(response.data.data.data):{};
 
-          this.topData.allRepertory[0].number = res.existeVolume;
-          let ratio = res.existeVolume / res.totalVolume > 1 ? 100 : res.existeVolume / res.totalVolume * 100;
-          ratio = ratio < 0 ? 0 : ratio;
+          let cur=(res.temperateVolume +res.coldVolume +res.freezeVolume)||0;
+          let full=(res.temperateVolumeTotal  +res.coldVolumeTotal  +res.freezeVolumeTotal)||0;
+
+          this.topData.allRepertory[0].number = cur;
+          let ratio = cur / full < 1 ? cur / full * 100 : 100;
+          ratio = ratio > 0 ? ratio : 0;
           this.topData.allRepertory[1].number = Math.round(ratio);
         }, err => {
           console.log(err);
@@ -313,14 +318,13 @@
       }
     },
     mounted() {
-      console.log(this.msg);
       this.getData();
       if (timer) {
         clearInterval(timer)
       }
-      timer=setInterval(()=>{
+      timer = setInterval(() => {
         this.getData()
-      },120000)
+      }, 120000)
     },
     components: {
       TopLeft,

@@ -12,6 +12,8 @@
 <script>
   let name=[];
   import echarts from "echarts"
+  import {getLacation} from "../../API"
+
   export default {
     name: "WareSurplus",
     props:["msg"],
@@ -19,8 +21,8 @@
       getDate(){
         let myEchart = echarts.init(this.$refs.analyzePie);
         let data=[];
-        this.$http.get('http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=orgFontInventoryMessage&orgUnikey=2fdb81ee5e0b5e8bb488839b10a75cc4').then(response => {
-         let res=JSON.parse(response.data.data.data).mapList;
+        this.$http.get(getLacation+'?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=orgFontInventoryMessage&orgUnikey=2fdb81ee5e0b5e8bb488839b10a75cc4').then(response => {
+          let res=JSON.parse(response.data.data.data).mapList;
          res.forEach(item=>{
            name.push(item.wareHosueName);
            data.push({

@@ -22,6 +22,7 @@
   import "../../node_modules/echarts/map/js/province/shanghai.js"
   import "../..//node_modules/echarts/map/js/china.js"
   import "../../static/map/echarts.min"
+  import {getLacation} from "../API"
 
   export default {
     name: "monitor-map",

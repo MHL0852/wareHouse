@@ -5,7 +5,7 @@
     </div>
     <div class="body">
       <ul class="main">
-        <li class="text clearfix" v-for="(val,index) in msg.data" :key="index">
+        <li class="text clearfix" v-for="(val,index) in hotData" :key="index">
           <span class="index">{{index+1}}</span>
           <span class="info">{{val.goodsname}}</span>
           <span class="unit">{{val.unit||"箱"}}</span>
@@ -17,9 +17,49 @@
 </template>
 
 <script>
+  import {getLacation} from "../../API"
+
   export default {
     name: "information",
-    props: ["msg"]
+    data() {
+      return {
+        hotData: []
+      }
+    },
+    props: ["msg"],
+    methods: {
+
+      getData() {
+        let sellerUnikey,
+          serviceName,
+          method;
+
+        if (this.msg.type === "hotSale") {
+          sellerUnikey = '2fdb81ee5e0b5e8bb488839b10a75cc4';
+          serviceName = "com.vtradex.fee.server.api.FeeParentService";
+          method = "getBuyerMessageReport";
+        } else if (this.msg.type === "consume") {
+          sellerUnikey = '2fdb81ee5e0b5e8bb488839b10a75cc4';
+          serviceName = "com.vtradex.fee.server.api.FeeParentService";
+          method = "getGoodsQuantityReport";
+        } else if (this.msg.type === "frequency") {
+          sellerUnikey = '2fdb81ee5e0b5e8bb488839b10a75cc4';
+          serviceName = "com.vtradex.fee.server.api.FeeParentService";
+          method = "getGoodsRateReport";
+        }
+        this.$http.get(`${getLacation}?serviceName=${serviceName}&method=${method}&sellerUnikey=${sellerUnikey}`).then(response => {
+          console.log(response);
+          let res = JSON.parse(response.data.data.data);
+          console.log(res, this.msg.data, this.msg.type);
+          res[0] ? this.hotData[0] = res.data : this.hotData = this.msg.data
+        }, err => {
+          console.log(err);
+        });
+      }
+    },
+    mounted() {
+      this.getData()
+    }
   }
 </script>
 
@@ -44,7 +84,7 @@
   }
 
   .information .top h4 {
-    font-size:.18rem;
+    font-size: .18rem;
     height: .50rem;
     margin: 0;
     padding-left: .20rem;
@@ -63,11 +103,12 @@
     overflow: hidden;
   }
 
-  .information li :nth-child(1){
-    margin-right:.10rem ;
+  .information li :nth-child(1) {
+    margin-right: .10rem;
     text-align: center;
   }
-  .information li :nth-child(2){
+
+  .information li :nth-child(2) {
     width: 2.50rem;
     text-align: left;
     overflow: hidden;
@@ -75,27 +116,28 @@
     text-overflow: ellipsis;
   }
 
-
-  .information li:nth-child(1) :nth-child(1){
-    margin:.10rem .10rem .10rem 0 ;
+  .information li:nth-child(1) :nth-child(1) {
+    margin: .10rem .10rem .10rem 0;
     line-height: .18rem;
     background-color: #d67b82;
     text-align: center;
-    color:#fff
+    color: #fff
   }
-  .information li:nth-child(2) :nth-child(1){
-    margin:.10rem .10rem .10rem 0 ;
+
+  .information li:nth-child(2) :nth-child(1) {
+    margin: .10rem .10rem .10rem 0;
     line-height: .18rem;
     background-color: #ffbb7f;
     text-align: center;
-    color:#fff
+    color: #fff
   }
-  .information li:nth-child(3) :nth-child(1){
+
+  .information li:nth-child(3) :nth-child(1) {
     text-align: center;
-    margin:.10rem .10rem .10rem 0 ;
+    margin: .10rem .10rem .10rem 0;
     line-height: .18rem;
     background-color: #b5a1de;
-    color:#fff
+    color: #fff
   }
 
   .information .main .text {
@@ -120,7 +162,8 @@
     height: .18rem;
     border-radius: 50%;
   }
-  .information .main .unit,.num{
+
+  .information .main .unit, .num {
     float: right;
   }
 

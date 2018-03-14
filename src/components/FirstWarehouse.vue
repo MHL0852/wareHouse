@@ -12,6 +12,7 @@
   import TopPart from './FirstWarehouse/TopPart'
   import ButtonPart from './FirstWarehouse/ButtonPart'
   import Part from"./FirstWarehouse/part"
+  import {getLacation} from "../API/index"
 
   export default {
     name: "first-warehouse",
@@ -24,7 +25,7 @@
     },
     methods:{
       getData(){
-        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseReport&pageNumber=1&pageSize=4').then(response => {
+        this.$http.get(getLacation+'?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseReport&pageNumber=1&pageSize=4').then(response => {
           this.wareList = JSON.parse(response.data.data.page).result;
         }, err => {
           console.log(err);

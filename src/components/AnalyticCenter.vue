@@ -22,31 +22,33 @@
   import TopTen_month from "./AnalyticCenter/TopTen_moth"
   import UnitPrice from "./AnalyticCenter/UnitPrice"
   import HotCargo from "./AnalyticCenter/HotCargo"
+  import {getLacation} from "../API"
 
   export default {
     name: "analytic-center",
     methods: {
+
       getData() {
         //头部数据
-        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=1&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+        this.$http.get(getLacation+'?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=1&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.topData[0].number = JSON.parse(response.data.data.data).total
         }, err => {
           console.log(err);
         });
 
-        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=2&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+        this.$http.get(getLacation+'?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=2&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.topData[1].number = JSON.parse(response.data.data.data).total
         }, err => {
           console.log(err);
         });
 
-        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=3&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+        this.$http.get(getLacation+'?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=3&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.topData[4].number = JSON.parse(response.data.data.data).total
         }, err => {
           console.log(err);
         });
 
-        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v ?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=orgFontInventoryMessage&orgUnikey=2fdb81ee5e0b5e8bb488839b10a75cc4').then(response => {
+        this.$http.get(getLacation+'?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=orgFontInventoryMessage&orgUnikey=2fdb81ee5e0b5e8bb488839b10a75cc4').then(response => {
           this.topData[2].number = JSON.parse(response.data.data.data).totalVolume.toFixed(1);
         }, err => {
           console.log(err);
@@ -54,11 +56,13 @@
 //TODO  头部模块第4/6/7个的数据没有
 
         //七日高消费产品
-        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerHotGoods&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
+        this.$http.get(getLacation+'?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerHotGoods&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.hotCargodata[1].data = JSON.parse(response.data.data.data);
         }, err => {
           console.log(err);
         });
+
+
 
 
       }
@@ -128,13 +132,14 @@
           inventory: {
 
             name: "销售额",
-            value: [120.0, 310.9, 413.0, 1213.2, 7112.6, 5112.7, 2119.6]
+            value: [10000, 1000, 100, 10, 100, 1000, 10000]
           },
           sum: {
             name: "单量",
-            value: [1250, 1120.9, 722.0, 524.4, 222.7, 110.7, 20.5]
+            value: [10, 100, 1000, 10000, 1000, 100, 10]
           },
         },
+        sevenDayShow:false,
         wareSurplus: {//右上饼状图数据
           names: ['武宁路二仓', '飞轮路一仓', '海河路仓', '哈高科仓', '花园街仓'],
           colors: ["#2ec8ca", "#b6a2df", "#5bb9f9", "#ffb880", "#d97a80"],
@@ -154,10 +159,11 @@
         },
         hotCargodata: [
           {
+            type:"hotSale",
             title: "热卖商品TOP10(近七天)",
             data: [
               {
-                goodsname: "科尔沁冷冻牛肉500g",
+                goodsname: "科尔沁冷冻牛肉1500g",
                 sumprice: 5600,
                 unit: "箱"
               },
@@ -209,10 +215,11 @@
             ]
           },
           {
+            type:"consume",
             title: "高消费明星商品TOP10(近七天)",
             data: [
               {
-                goodsname: "科尔沁冷冻牛肉500g",
+                goodsname: "科尔沁冷冻牛肉2500g",
                 sumprice: 5600,
                 unit: "箱"
               },
@@ -264,10 +271,11 @@
             ]
           },
           {
+            type:"frequency",
             title: "高频出售商品TOP10(近七天)",
             data: [
               {
-                goodsname: "科尔沁冷冻牛肉500g",
+                goodsname: "科尔沁冷冻牛肉3500g",
                 sumprice: 5600,
                 unit: "箱"
               },
@@ -283,7 +291,7 @@
               },
               {
                 goodsname: "科尔沁冷冻牛肉500g",
-                number: 5600,
+                sumprice: 5600,
                 unit: "箱"
               },
               {

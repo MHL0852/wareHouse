@@ -6,6 +6,8 @@ import router from './router'
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios"
 import VueResource from 'vue-resource'
+
+
 Vue.use(VueResource);
 
 Vue.config.productionTip = false;

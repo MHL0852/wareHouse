@@ -11,23 +11,24 @@
 
 <script>
   import echarts from "echarts"
+  import {getLacation} from "../../API"
   export default {
     name: "Analyze",
     props:["msg"],
     mounted() {
       let myEchart = echarts.init(this.$refs.analyzePie);
 
-      this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v ?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringPieChartReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+      this.$http.get(`${getLacation}?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringPieChartReport&wareHouseId=${this.$route.params.bid}`).then(response => {
         let res=JSON.parse(response.data.data.data);
-        console.log(res);
-        let wareHouseVolumn=res[0].wareHouseVolumn;
+        let wareHouseVolumn=1;
+         res[0]? wareHouseVolumn=res[0].wareHouseVolumn:null;
         let names=[],
           values=[],
         data=[];
         res.forEach(item=>{
           names.push(item.sellerName);
           values.push(item.totalVolumn);
-          wareHouseVolumn-=item.totalVolumn;
+          wareHouseVolumn-=item.totalVolumn||0;
           data.push({
             "name":item.sellerName,
             "value":item.totalVolumn
