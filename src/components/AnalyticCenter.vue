@@ -22,45 +22,52 @@
   import TopTen_month from "./AnalyticCenter/TopTen_moth"
   import UnitPrice from "./AnalyticCenter/UnitPrice"
   import HotCargo from "./AnalyticCenter/HotCargo"
+
   export default {
     name: "analytic-center",
-    methods:{
+    methods: {
       getData() {
+        //头部数据
         this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=1&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.topData[0].number = JSON.parse(response.data.data.data).total
         }, err => {
           console.log(err);
         });
+
         this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=2&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.topData[1].number = JSON.parse(response.data.data.data).total
         }, err => {
           console.log(err);
         });
+
         this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerSalesAmount&type=3&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.topData[4].number = JSON.parse(response.data.data.data).total
         }, err => {
           console.log(err);
         });
 
-        this.$http.get('http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=orgFontInventoryMessage&orgUnikey=2fdb81ee5e0b5e8bb488839b10a75cc4').then(response => {
-          this.topData[2].number=JSON.parse(response.data.data.data).totalVolume.toFixed(1);
+        this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v ?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=orgFontInventoryMessage&orgUnikey=2fdb81ee5e0b5e8bb488839b10a75cc4').then(response => {
+          this.topData[2].number = JSON.parse(response.data.data.data).totalVolume.toFixed(1);
         }, err => {
           console.log(err);
-        });//仓库库存及饼图数据
+        });//仓库库存,饼图数据在组件中另取一次
 //TODO  头部模块第4/6/7个的数据没有
 
+        //七日高消费产品
         this.$http.get('https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.fee.server.api.FeeParentService&method=getSellerHotGoods&sellerUnikey=d6106b0f9cb5a88a58bfa68807148d5a').then(response => {
           this.hotCargodata[1].data = JSON.parse(response.data.data.data);
         }, err => {
           console.log(err);
-        });//七日高消费产品
+        });
+
+
       }
     },
     mounted() {
       this.getData();
-      if(timer){
+      if (timer) {
         clearInterval(timer);
-        timer=null;
+        timer = null;
       }
       timer = setInterval(
         () => {
@@ -141,7 +148,7 @@
           title: "近七天平均客单价走势",
           unitPrice: {
             name: "客单价",
-            date: ["周日","周一", "周二", "周三", "周四", "周五", "周六" ],
+            date: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
             value: [600.0, 520.9, 700.0, 823.2, 812.6, 914.7, 689.6]
           },
         },

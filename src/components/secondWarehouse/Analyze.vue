@@ -17,7 +17,7 @@
     mounted() {
       let myEchart = echarts.init(this.$refs.analyzePie);
 
-      this.$http.get(`http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringPieChartReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+      this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v ?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringPieChartReport&wareHouseId=${this.$route.params.bid}`).then(response => {
         let res=JSON.parse(response.data.data.data);
         console.log(res);
         let wareHouseVolumn=res[0].wareHouseVolumn;

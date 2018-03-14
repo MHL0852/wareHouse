@@ -101,7 +101,7 @@
           console.log(err);
         });
 
-        this.$http.get(`http://192.168.1.98:8082/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.msg.id}`).then(response => {
+        this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v ?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.msg.id}`).then(response => {
           let data = response.data.data.data||
             JSON.stringify({"wareHouseId" : 0, "coldVolume" : 0, "freezeVolume" : 0,"coldVolumeTotal" : 0, "freezeVolumeTotal" : 0});
           data = JSON.parse(data);
