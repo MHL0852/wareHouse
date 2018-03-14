@@ -2,9 +2,9 @@
   <div class="back">
     <div class="container">
       <div class="nav">
-        <TopLeft v-for="(msg,index) in topData.allRepertory" :msg="msg" :key="index+1000.2"></TopLeft>
+        <TopLeft v-for="(data,index) in topData.allRepertory" :msg="data" :key="index+1000.2"></TopLeft>
         <TopMiddle :cold="topData.coldStorage" :freeze="topData.freeze"></TopMiddle>
-        <TopRight v-for="(msg,index) in topData.topRight" :msg="msg" :key="index+100.1"></TopRight>
+        <TopRight v-for="(data,index) in topData.topRight" :msg="data" :key="index+100.1"></TopRight>
       </div>
       <div class="body clearfix">
         <div class="bodyLeft clearfix">
@@ -302,7 +302,7 @@
 
         this.$http.get(`https://gwt.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.$route.params.bid}`).then(response => {
           let res = JSON.parse(response.data.data.data);
-          console.log(res,101010);
+
           this.topData.allRepertory[0].number = res.existeVolume;
           let ratio = res.existeVolume / res.totalVolume > 1 ? 100 : res.existeVolume / res.totalVolume * 100;
           ratio = ratio < 0 ? 0 : ratio;
@@ -313,6 +313,7 @@
       }
     },
     mounted() {
+      console.log(this.msg);
       this.getData();
       if (timer) {
         clearInterval(timer)
