@@ -19,6 +19,7 @@
     mounted() {
       let{coldStorage,freeze,electric}=this.data;
       let myEchart = echarts.init(this.$refs.temperatureLine);
+      window.addEventListener("resize",myEchart.resize);
       myEchart.setOption(
         {
           color: ["#fd8560", "#9bcb64", "#2ec8cb"],

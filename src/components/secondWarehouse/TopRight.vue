@@ -34,7 +34,7 @@
   display: inline-block;
   float: left;
   margin:.10rem;
-  width: 3.25rem;
+  width: 3rem;
   height: 1.00rem;
   position: relative;
   background: #343743;

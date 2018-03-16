@@ -54,6 +54,7 @@
     },
     mounted() {
       let myChart = echarts.init(this.$refs.mainPie);
+      window.addEventListener("resize",myChart.resize);
       let {full,cur}=this.msg.wareAbout;
       cur>full?cur=full:null;
       this.full=full;

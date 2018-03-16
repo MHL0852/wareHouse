@@ -20,6 +20,7 @@
     mounted() {
       let {inventory, sum, colors} = this.msg;
       let myEchart = echarts.init(this.$refs.inventoryLine);
+      window.addEventListener("resize",myEchart.resize);
       myEchart.setOption(
         {
           color: this.msg.colors,

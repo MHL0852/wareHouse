@@ -2,6 +2,12 @@
   <div class="back">
     <div class="container">
       <div class="nav">
+        <router-link :to="{name:'firstwarehouse'}">
+          <div class="comeToFirst">
+            <img :src="topData.backUrl" alt="">
+          </div>
+        </router-link>
+
         <TopLeft v-for="(data,index) in topData.allRepertory" :msg="data" :key="index+1000.2"></TopLeft>
         <TopMiddle :cold="topData.coldStorage" :freeze="topData.freeze"></TopMiddle>
         <TopRight v-for="(data,index) in topData.topRight" :msg="data" :key="index+100.1"></TopRight>
@@ -48,6 +54,7 @@
     data() {
       return {
         topData: {//头部数据
+          backUrl:"../../static/SecondWarehouse/fanhui.png",
           allRepertory: [
             {//总库存
               title: "当前库存总量",
@@ -345,6 +352,20 @@
     width: 19.20rem;
     height: 9.00rem;
     background: #2a2d3b;
+  }
+  .comeToFirst{
+    width: .75rem;
+    height: 1rem;
+    margin:.1rem;
+    background: #343743;
+  }
+
+  .comeToFirst img{
+    float: left;
+    margin-top:.15rem;
+    width: .7rem;
+    height: .7rem;
+    display: inline-block;
   }
 
   .back .container {

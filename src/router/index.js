@@ -24,6 +24,7 @@ export default new Router({
     {
       path: '/firstwarehouse',
       component:()=>import('../components/FirstWarehouse'),
+      name:"firstwarehouse"
     },
     {
       path: '/secondwarehouse/:bid',

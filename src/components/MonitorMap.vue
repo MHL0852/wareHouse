@@ -110,6 +110,7 @@
     },
     mounted() {
       let myChart = echarts.init(this.$refs.mapBody);
+      window.addEventListener("resize",myChart.resize);
       let ware = [
         {name: "一号仓", value: [122.111, 31.125, 200]},
         {name: "一号仓", value: [122.171, 31.025, 200]},

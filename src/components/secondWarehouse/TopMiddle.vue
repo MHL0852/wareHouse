@@ -50,7 +50,7 @@
   .ware {
     position: relative;
     display: inline-block;
-    width: 1.61rem;
+    width: 1.51rem;
     height: 1.00rem;
     background: #343743;
     float: left;

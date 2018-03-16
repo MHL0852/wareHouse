@@ -17,6 +17,7 @@
     props:["msg"],
     mounted() {
       let myEchart = echarts.init(this.$refs.analyzePie);
+      window.addEventListener("resize",myEchart.resize);
 
       this.$http.get(`${getLacation}?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringPieChartReport&wareHouseId=${this.$route.params.bid}`).then(response => {
         let res=JSON.parse(response.data.data.data);
@@ -64,6 +65,11 @@
             data: names
           },
           color: this.msg.colors,
+          tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)",
+            position:["40%","-17%"]
+          },
           series: [
             {
               name: '库存分析',
