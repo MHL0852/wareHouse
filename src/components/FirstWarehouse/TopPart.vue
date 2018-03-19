@@ -53,7 +53,7 @@
     },
     updated(){
       let myChart = echarts.init(this.$refs.mainPie);
-      window.addEventListener("resize",myChart.resize);
+
       myChart.setOption({
         color:["#5ec1dc","#344456"],
         series: [{
@@ -86,6 +86,7 @@
       this.cur=this.msg.wareAbout.cur;
       this.cur>this.full?this.cur=this.full:null;
       let myChart = echarts.init(this.$refs.mainPie);
+      window.addEventListener("resize",myChart.resize);
       myChart.setOption({
         color:["#5ec1dc","#344456"],
         series: [{

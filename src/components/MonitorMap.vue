@@ -100,7 +100,12 @@
             text: "车",
             num: 280
           }
-        ]
+        ],
+        mapData:{
+          ware:[],
+          car:[],
+          shop:[]
+        }
 
       }
 
@@ -108,111 +113,167 @@
     components: {
       Information
     },
-    mounted() {
-      let myChart = echarts.init(this.$refs.mapBody);
-      window.addEventListener("resize",myChart.resize);
-      let ware = [
-        {name: "一号仓", value: [122.111, 31.125, 200]},
-        {name: "一号仓", value: [122.171, 31.025, 200]},
-        {name: "一号仓", value: [121.323, 30.675, 200]},
-        {name: "一号仓", value: [121.735, 31.425, 200]},
-        {name: "一号仓", value: [121.134, 31.025, 200]},
-        {name: "一号仓", value: [121.621, 30.625, 200]},
-        {name: "一号仓", value: [121.331, 31.55, 200]}
-      ];//仓库数据
-      let shop = [
-        {name: "一号店", value: [121.111, 31.025, 150]},
-        {name: "一号店", value: [121.111, 31.325, 150]},
-        {name: "一号店", value: [121.1223, 30.675, 150]},
-        {name: "一号店", value: [121.3435, 30.825, 150]},
-        {name: "一号店", value: [121.334, 30.925, 150]},
-        {name: "一号店", value: [121.421, 31.325, 150]},
-        {name: "一号店", value: [121.231, 31.25, 150]}
-      ];//店铺数据
-      let car = [
-        {name: "一号车", value: [122.111, 31.525, 100]},
-        {name: "一号车", value: [122.111, 31.325, 100]},
-        {name: "一号车", value: [121.1223, 31.675, 100]},
-        {name: "一号车", value: [121.3435, 31.825, 100]},
-        {name: "一号车", value: [121.334, 31.925, 100]},
-        {name: "一号车", value: [121.421, 30.725, 100]},
-        {name: "一号车", value: [121.631, 31.25, 100]}
-      ];//车辆数据
-      let option = {
-        color: ["#f6f7f9", "#12dee9", "#2587f2"],//色盘
-        geo: {
-          map: '上海',
-          left:"20%",
-          right:"45%",
-          roam: true,
-          itemStyle: {
-            normal: {
-              color: "#2a2b3c",
-              lineStyle: {
-                color: "#608bea"
-              },
-              borderColor: "#608bea",
-            },
-            emphasis: {					// 高亮状态下的样式
-              areaColor: '#343643',
+    methods: {
+      getData() {
+        let myChart = echarts.init(this.$refs.mapBody);
+        window.addEventListener("resize", myChart.resize);
+        let ware = [],
+          shop = [],
+          car = [];
+        this.$http.get('http://192.168.1.86:22223/vcloudwood/gateway/query.v?serviceName=com.vtradex.order.api.LocationApi&method=findOrgLoc').then(response => {
+          console.log(response);
+          let shops = JSON.parse(response.data.data.shop);
+          let wares = JSON.parse(response.data.data.warehouse);
+          shops.forEach(item => {
+            if (item.longitude && item.latitude) {
+              shop.push({
+                name: item.name,
+                value: [item.longitude, item.latitude, item.city, item.district],
+                city: item.city,
+                district: item.district,
+                address: item.address
+              })
             }
-          }
-        },
-        background: "#2a2b3c",
-        // visualMap: {  },
-        series: [
-          {
-            name: "仓库",
-            type: "scatter",
-            coordinateSystem: 'geo',
-            symbol:"diamond",
-            symbolSize:18,
-            itemStyle:{
-              color:"#f6f7f9",
-              shadowColor:"#f6f7f9",
-              shadowBlur:"10"
+          })
+            wares.forEach(item => {
+              if (item.longitude && item.latitude) {
+                ware.push({
+                  name: item.name,
+                  value: [item.longitude, item.latitude, item.city, item.district],
+                  city: item.city,
+                  district: item.district,
+                  address: item.address
+                })
+              }
+          });
+          !ware[0] ? ware = [
+            {name: "一号仓", value: [122.111, 31.125, 200]},
+            {name: "一号仓", value: [122.171, 31.025, 200]},
+            {name: "一号仓", value: [121.323, 30.675, 200]},
+            {name: "一号仓", value: [121.735, 31.425, 200]},
+            {name: "一号仓", value: [121.134, 31.025, 200]},
+            {name: "一号仓", value: [121.621, 30.625, 200]},
+            {name: "一号仓", value: [121.331, 31.55, 200]}
+          ] : null;//仓库数据
+          !shop[0] ? shop = [
+            {name: "一号店", value: [121.111, 31.025, 150]},
+            {name: "一号店", value: [121.111, 31.325, 150]},
+            {name: "一号店", value: [121.1223, 30.675, 150]},
+            {name: "一号店", value: [121.3435, 30.825, 150]},
+            {name: "一号店", value: [121.334, 30.925, 150]},
+            {name: "一号店", value: [121.421, 31.325, 150]},
+            {name: "一号店", value: [121.231, 31.25, 150]}
+          ] : null;//店铺数据
+          !car[0] ? car = [
+            {name: "一号车", value: [122.111, 31.525, 100]},
+            {name: "一号车", value: [122.111, 31.325, 100]},
+            {name: "一号车", value: [121.1223, 31.675, 100]},
+            {name: "一号车", value: [121.3435, 31.825, 100]},
+            {name: "一号车", value: [121.334, 31.925, 100]},
+            {name: "一号车", value: [121.421, 30.725, 100]},
+            {name: "一号车", value: [121.631, 31.25, 100]}
+          ] : null;//车辆数据
+          this.typeData[0].num=ware.length;
+          this.typeData[1].num=shop.length;
+          this.typeData[2].num=car.length;
+          console.log(this.typeData);
+          let option = {
+            color: ["#f6f7f9", "#12dee9", "#2587f2"],//色盘
+            geo: {
+              map: '上海',
+              left: "20%",
+              right: "45%",
+              roam: true,
+              label: {
+                emphasis: {
+                  textStyle: {
+                    color: '#fff'
+                  }
+                }
+              },
+              itemStyle: {
+                normal: {
+                  color: "#2a2b3c",
+                  lineStyle: {
+                    color: "#608bea"
+                  },
+                  borderColor: "#608bea",
+                },
+                emphasis: {					// 高亮状态下的样式
+                  areaColor: '#343643',
+                }
+              }
             },
-
-            data: ware,
-          },
-          {
-            name: "门店",
-            type: "scatter",
-            coordinateSystem: 'geo',
-            symbolSize:15,
-            itemStyle:{
-              color:"#12dee9",
-              shadowColor:"#12dee9",
-              shadowBlur:"10"
+            background: "#2a2b3c",
+            tooltip: {
+              formatter: (value) => {
+                value = value.data;
+                return value.name + '\n' + value.city + '\n' + value.district + "\n" + value.address
+              }
             },
+            // visualMap: {  },
+            series: [
+              {
+                name: "仓库",
+                type: "effectScatter",
+                coordinateSystem: 'geo',
+                symbol: "diamond",
+                symbolSize: 13,
+                itemStyle: {
+                  color: "#f6f7f9",
+                  shadowColor: "#f6f7f9",
+                  shadowBlur: "10"
+                },
+
+                data: ware,
+              },
+              {
+                name: "门店",
+                type: "effectScatter",
+                coordinateSystem: 'geo',
+                symbolSize: 10,
+                itemStyle: {
+                  color: "#12dee9",
+                  shadowColor: "#12dee9",
+                  shadowBlur: "10"
+                },
 
 
-            data: shop,
-          },
-          {
-            name: "车",
-            type: "scatter",
-            coordinateSystem: 'geo',
-            symbol:"rect",
-            itemStyle:{
-              color:"#2587f2",
-              shadowColor:"2587f2",
-              shadowBlur:"10"
-            },
+                data: shop,
+              },
+              {
+                name: "车",
+                type: "scatter",
+                coordinateSystem: 'geo',
+                symbol: "rect",
+                itemStyle: {
+                  color: "#2587f2",
+                  shadowColor: "2587f2",
+                  shadowBlur: "10"
+                },
 
-            data: car,
-          }
-        ]
-      };
+                data: car,
+              }
+            ]
+          };
 
-      myChart.setOption(option)
+          myChart.setOption(option)
+          console.log(res);
+        }, err => {
+          console.log(err);
+        });
+      }
+    },
+    mounted() {
+
+      this.getData();
     },
   }
 </script>
 
 <style scoped>
   .map {
-    font-size:0.18rem;
+    font-size: 0.18rem;
     width: 19.2rem;
     height: 9rem;
     margin: auto;

@@ -54,7 +54,9 @@
 
   .wareContainer .warehouseList {
     width: 19.2rem;
+    margin:auto;
     height: 9rem;
+    overflow: hidden;
     padding: 0.1rem;
   }
 </style>

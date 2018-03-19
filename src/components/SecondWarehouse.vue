@@ -350,6 +350,7 @@
     margin: 0 auto;
     padding: 0;
     width: 19.20rem;
+    min-width: 1000px;
     height: 9.00rem;
     background: #2a2d3b;
   }
