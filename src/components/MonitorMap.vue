@@ -3,7 +3,7 @@
     <div class="fullScreen" @click="clicks" ref="fullScreen">{{this.isFullScreen?"退出全屏":"全屏展示"}}</div>
     <div id="mapBody" ref="mapBody" :style="{width:'100%',height:'100%'}"></div>
     <div class="info">
-      <ul class="top">
+      <ul class="top clearfix">
         <li class="type clearfix" v-for="(val,index) in typeData" :key="index">
           <span :style="{backgroundColor:val.color}" class="tip"></span>
           <span class="text">{{val.text}}</span>
@@ -34,8 +34,14 @@
           let element = window.parent.document.documentElement;
           let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
           if (requestMethod) {
-            let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
-            requestMethod.call(myIframe);
+            let myIframe=null,
+              myIframes=window.parent.document.getElementsByTagName("iframe");
+            [].forEach.call(myIframes,item=>{
+              if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
+                requestMethod.call(item);
+              }
+            });
+
           } else if (typeof window.ActiveXObject !== "undefined") {
             let wscript = new ActiveXObject("WScript.Shell");
             if (wscript !== null) {
@@ -125,13 +131,16 @@
     methods: {
       fullScreen() {
         let element = window.parent.document.documentElement;
-        if(!element){
-          element=document.documentElement
-        }
         let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
         if (requestMethod) {
-          let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
-          requestMethod.call(myIframe);
+          let myIframe=null,
+            myIframes=window.parent.document.getElementsByTagName("iframe");
+          [].forEach.call(myIframes,item=>{
+            if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
+              requestMethod.call(item);
+            }
+          });
+
         } else if (typeof window.ActiveXObject !== "undefined") {
           let wscript = new ActiveXObject("WScript.Shell");
           if (wscript !== null) {
@@ -354,11 +363,14 @@
 
 <style scoped>
   .map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0;
+    margin:-4.5rem 0 0 -9.6rem;
     font-size: 0.18rem;
     width: 19.2rem;
     height: 9rem;
-    margin: auto;
-    position: relative;
     background: #2a2c3b;
   }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="wareContainer" ref="wareContainer">
     <ul class="warehouseList clearfix">
-      <li class="fullScreen" @click="clicks" ref="fullScreen">{{this.isFullScreen?"退出全屏":"全屏展示"}}</li>
+      <li class="fullScreen clearfix" @click="clicks" ref="fullScreen">{{this.isFullScreen?"退出全屏":"全屏展示"}}</li>
       <router-link v-for="(itemWare,index) in wareList" :key="index" :to="{name:'wareDetail',params:{bid:itemWare.id}}"
                    tag="li">
         <Part :msg="itemWare"></Part>
@@ -24,8 +24,14 @@
           let element = window.parent.document.documentElement;
           let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
           if (requestMethod) {
-            let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
-            requestMethod.call(myIframe);
+            let myIframe=null,
+              myIframes=window.parent.document.getElementsByTagName("iframe");
+            [].forEach.call(myIframes,item=>{
+              if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
+                requestMethod.call(item);
+              }
+            });
+
           } else if (typeof window.ActiveXObject !== "undefined") {
             let wscript = new ActiveXObject("WScript.Shell");
             if (wscript !== null) {
@@ -40,13 +46,16 @@
     methods: {
       fullScreen() {
         let element = window.parent.document.documentElement;
-        if(!element){
-          element=document.documentElement
-        }
         let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
         if (requestMethod) {
-          let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
-          requestMethod.call(myIframe);
+          let myIframe=null,
+            myIframes=window.parent.document.getElementsByTagName("iframe");
+          [].forEach.call(myIframes,item=>{
+            if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
+              requestMethod.call(item);
+            }
+          });
+
         } else if (typeof window.ActiveXObject !== "undefined") {
           let wscript = new ActiveXObject("WScript.Shell");
           if (wscript !== null) {
@@ -79,6 +88,15 @@
       },//获取数据
       screenChange(){
         let element = window.parent.document.documentElement;
+
+
+        /*if(enabledVal){
+          this.isFullScreen=false;
+          this.click=this.fullScreen()
+        }else{
+          this.isFullScreen=true;
+          this.click=this.exitFullscreen()
+        }*/
         window.addEventListener("fullscreenchange", () => {
           this.isFullScreen = !this.isFullScreen;
           if(this.isFullScreen){
@@ -90,6 +108,7 @@
 
         window.addEventListener("mozfullscreenchange", function () {
           this.isFullScreen = !this.isFullScreen;
+
           if(this.isFullScreen){
             this.clicks=this.exitFullscreen
           }else{
@@ -129,11 +148,21 @@
 </script>
 
 <style scoped>
+  html,body{
+    width: 100%;
+    height: 100%;
+    margin:auto;
+    background:#2a2d3b ;
+  }
   .wareContainer {
-    margin: 0 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     padding: 0;
+    margin:-4.5rem 0 0 -9.6rem;
     width: 19.2rem;
     height: 9rem;
+
     background: #2a2d3b;
   }
 

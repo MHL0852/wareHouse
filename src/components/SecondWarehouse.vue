@@ -8,7 +8,6 @@
             <img :src="topData.backUrl" alt="">
           </div>
         </router-link>
-
         <TopLeft v-for="(data,index) in topData.allRepertory" :msg="data" :key="index+1000.2"></TopLeft>
         <TopMiddle :cold="topData.coldStorage" :freeze="topData.freeze"></TopMiddle>
         <TopRight v-for="(data,index) in topData.topRight" :msg="data" :key="index+100.1"></TopRight>
@@ -60,8 +59,14 @@
           let element = window.parent.document.documentElement;
           let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
           if (requestMethod) {
-            let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
-            requestMethod.call(myIframe);
+            let myIframe=null,
+              myIframes=window.parent.document.getElementsByTagName("iframe");
+            [].forEach.call(myIframes,item=>{
+              if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
+                requestMethod.call(item);
+              }
+            });
+
           } else if (typeof window.ActiveXObject !== "undefined") {
             let wscript = new ActiveXObject("WScript.Shell");
             if (wscript !== null) {
@@ -311,8 +316,14 @@
         let element = window.parent.document.documentElement;
         let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
         if (requestMethod) {
-          let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
-          requestMethod.call(myIframe);
+          let myIframe=null,
+            myIframes=window.parent.document.getElementsByTagName("iframe");
+          [].forEach.call(myIframes,item=>{
+            if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
+              requestMethod.call(item);
+            }
+          });
+
         } else if (typeof window.ActiveXObject !== "undefined") {
           let wscript = new ActiveXObject("WScript.Shell");
           if (wscript !== null) {
@@ -429,7 +440,10 @@
 
 <style scoped>
   .back {
-    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin:-4.5rem 0 0 -9.6rem;
     padding: 0;
     width: 19.20rem;
     min-width: 1000px;
