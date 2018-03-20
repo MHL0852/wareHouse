@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import FirstWarehouse from '@/components/FirstWarehouse'
+import SecondWarehouse from '@/components/SecondWarehouse'
+import MonitorMap from '@/components/MonitorMap'
 
 Vue.use(Router)
 
@@ -11,16 +14,16 @@ export default new Router({
     },
     {
       path: '/monitormap',
-      component:()=>import('../components/MonitorMap'),
+      component:MonitorMap,
     },
     {
       path: '/firstwarehouse',
-      component:()=>import('../components/FirstWarehouse'),
+      component:FirstWarehouse,
       name:"firstwarehouse"
     },
     {
       path: '/secondwarehouse/:bid',
-      component:()=>import('../components/SecondWarehouse'),
+      component:SecondWarehouse,
       name:"wareDetail"
     },
     {

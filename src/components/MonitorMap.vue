@@ -1,5 +1,6 @@
 <template>
-  <div class="map" id="map">
+  <div class="map" id="map" ref="wareContainer">
+    <div class="fullScreen" @click="clicks" ref="fullScreen">{{this.isFullScreen?"退出全屏":"全屏展示"}}</div>
     <div id="mapBody" ref="mapBody" :style="{width:'100%',height:'100%'}"></div>
     <div class="info">
       <ul class="top">
@@ -28,6 +29,20 @@
     name: "monitor-map",
     data() {
       return {
+        isFullScreen:false,
+        clicks:()=> {
+          let element = window.parent.document.documentElement;
+          let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+          if (requestMethod) {
+            let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
+            requestMethod.call(myIframe);
+          } else if (typeof window.ActiveXObject !== "undefined") {
+            let wscript = new ActiveXObject("WScript.Shell");
+            if (wscript !== null) {
+              wscript.SendKeys("{F11}");
+            }
+          }
+        },
         informationData: {
           title: "异常消息",
           msg: [
@@ -88,25 +103,19 @@
           {
             color: "#d1d1d1",
             text: "仓库",
-            num: 18,
+            num: 0,
           },
           {
             color: "#10c6c7",
             text: "门店",
-            num: 160,
+            num: 0,
           },
           {
             color: "#2375cb",
             text: "车",
-            num: 280
+            num: 0
           }
         ],
-        mapData:{
-          ware:[],
-          car:[],
-          shop:[]
-        }
-
       }
 
     },
@@ -114,14 +123,83 @@
       Information
     },
     methods: {
+      fullScreen() {
+        let element = window.parent.document.documentElement;
+        if(!element){
+          element=document.documentElement
+        }
+        let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+        if (requestMethod) {
+          let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
+          requestMethod.call(myIframe);
+        } else if (typeof window.ActiveXObject !== "undefined") {
+          let wscript = new ActiveXObject("WScript.Shell");
+          if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+          }
+        }
+      },//全屏
+      exitFullscreen(){
+        let elem = window.parent.document;
+        if(elem.webkitCancelFullScreen){
+          elem.webkitCancelFullScreen();
+        }else if(elem.mozCancelFullScreen){
+          elem.mozCancelFullScreen();
+        }else if(elem.cancelFullScreen){
+          elem.cancelFullScreen();
+        }else if(elem.exitFullscreen){
+          elem.exitFullscreen();
+        }else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }else{
+          //浏览器不支持全屏API或已被禁用
+        }
+      },//退出全屏
+      screenChange(){
+        let element = window.parent.document.documentElement;
+        window.addEventListener("fullscreenchange", () => {
+          this.isFullScreen = !this.isFullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
+        },false);
+
+        window.addEventListener("mozfullscreenchange", function () {
+          this.isFullScreen = !this.isFullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
+        }, false);
+
+        element.addEventListener("webkitfullscreenchange",  ()=> {
+          this.isFullScreen = !this.isFullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
+        }, false);
+
+        window.addEventListener("msfullscreenchange", function () {
+          this.isFullScreen = !this.isFullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
+        }, false);
+      },
       getData() {
         let myChart = echarts.init(this.$refs.mapBody);
         window.addEventListener("resize", myChart.resize);
         let ware = [],
           shop = [],
           car = [];
-        this.$http.get('http://192.168.1.86:22223/vcloudwood/gateway/query.v?serviceName=com.vtradex.order.api.LocationApi&method=findOrgLoc').then(response => {
-          console.log(response);
+        this.$http.get(getLacation+'?serviceName=com.vtradex.order.api.LocationApi&method=findOrgLoc').then(response => {
           let shops = JSON.parse(response.data.data.shop);
           let wares = JSON.parse(response.data.data.warehouse);
           shops.forEach(item => {
@@ -176,7 +254,7 @@
           this.typeData[0].num=ware.length;
           this.typeData[1].num=shop.length;
           this.typeData[2].num=car.length;
-          console.log(this.typeData);
+          this.typeD
           let option = {
             color: ["#f6f7f9", "#12dee9", "#2587f2"],//色盘
             geo: {
@@ -208,7 +286,11 @@
             tooltip: {
               formatter: (value) => {
                 value = value.data;
-                return value.name + '\n' + value.city + '\n' + value.district + "\n" + value.address
+               let  name=value.name?value.name:"";
+                let city=value.city?value.city:"";
+                let district=value.district?value.district:"";
+                let address=value.address?value.address:"";
+                return name + '\n' + city + '\n' + district + "\n" + address
               }
             },
             // visualMap: {  },
@@ -257,15 +339,14 @@
             ]
           };
 
-          myChart.setOption(option)
-          console.log(res);
+          myChart.setOption(option);
         }, err => {
           console.log(err);
         });
       }
     },
     mounted() {
-
+      this.screenChange();
       this.getData();
     },
   }
@@ -279,6 +360,20 @@
     margin: auto;
     position: relative;
     background: #2a2c3b;
+  }
+
+  .fullScreen{
+    position: fixed;
+    right: 1%;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    line-height:20px;
+    font-size: 18px;
+    color: #fff;
+    z-index: 200;
+    background: #2a2d3b;
+    opacity: 0.5;
   }
 
   .map .info {

@@ -1,6 +1,7 @@
 <template>
-  <div class="back">
+  <div class="back" ref="wareContainer">
     <div class="container">
+      <div class="fullScreen" @click="clicks" ref="fullScreen">{{this.isFullScreen?"退出全屏":"全屏展示"}}</div>
       <div class="nav">
         <router-link :to="{name:'firstwarehouse'}">
           <div class="comeToFirst">
@@ -52,7 +53,22 @@
   export default {
     name: "second-warehouse",
     data() {
+
       return {
+        isFullScreen:false,
+        clicks:()=> {
+          let element = window.parent.document.documentElement;
+          let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+          if (requestMethod) {
+            let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
+            requestMethod.call(myIframe);
+          } else if (typeof window.ActiveXObject !== "undefined") {
+            let wscript = new ActiveXObject("WScript.Shell");
+            if (wscript !== null) {
+              wscript.SendKeys("{F11}");
+            }
+          }
+        },
         topData: {//头部数据
           backUrl:"../../static/SecondWarehouse/fanhui.png",
           allRepertory: [
@@ -288,11 +304,76 @@
           },
           videoUrl: "../../../static/SecondWarehouse/ware_camera.png"
         }
-
-
       }
     },
     methods: {
+      fullScreen() {
+        let element = window.parent.document.documentElement;
+        let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+        if (requestMethod) {
+          let myIframe=window.parent.document.getElementsByTagName("iframe")[0];
+          requestMethod.call(myIframe);
+        } else if (typeof window.ActiveXObject !== "undefined") {
+          let wscript = new ActiveXObject("WScript.Shell");
+          if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+          }
+        }
+      },//全屏
+      exitFullscreen(){
+        let elem = window.parent.document;
+        if(elem.webkitCancelFullScreen){
+          elem.webkitCancelFullScreen();
+        }else if(elem.mozCancelFullScreen){
+          elem.mozCancelFullScreen();
+        }else if(elem.cancelFullScreen){
+          elem.cancelFullScreen();
+        }else if(elem.exitFullscreen){
+          elem.exitFullscreen();
+        }else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }else{
+          //浏览器不支持全屏API或已被禁用
+        }
+      },//退出全屏
+      screenChange(){
+        let element = window.parent.document.documentElement;
+        window.addEventListener("fullscreenchange", () => {
+          this.isFullScreen = !this.isFullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
+        },false);
+
+        window.addEventListener("mozfullscreenchange", function () {
+          this.isFullScreen = !this.isFullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
+        }, false);
+
+        element.addEventListener("webkitfullscreenchange",  ()=> {
+          this.isFullScreen = !this.isFullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
+        }, false);
+
+        window.addEventListener("msfullscreenchange", function () {
+          this.isFullScreen = !this.isFullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
+        }, false);
+      },
       getData() {
         this.$http.get(`${getLacation}?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.$route.params.bid}`).then(response => {
           let res = JSON.parse(response.data.data.data);
@@ -325,6 +406,7 @@
       }
     },
     mounted() {
+      this.screenChange();
       this.getData();
       if (timer) {
         clearInterval(timer)
@@ -359,6 +441,20 @@
     height: 1rem;
     margin:.1rem;
     background: #343743;
+  }
+
+  .fullScreen{
+    position: fixed;
+    right: 1%;
+    top: 20px;
+    width: 40px;
+    height: 40px;
+    line-height:20px;
+    font-size: 18px;
+    color: #fff;
+    z-index: 200;
+    background: #2a2d3b;
+    opacity: 0.5;
   }
 
   .comeToFirst img{
@@ -424,11 +520,11 @@
     padding: 0 .09rem 0;
     display: block;
     height: .30rem;
-    width: 1.90rem;
+    width: 2.2rem;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -.145rem 0 0 -.945rem;
+    margin: -.145rem 0 0 -1.1rem;
   }
 
   .video .videoContent img {
@@ -438,7 +534,8 @@
 
   .video .videoContent span {
     display: inline-block;
-    float: right;
+    float: left;
+    margin-left:.2rem;
     line-height: .30rem;
     font-size: .28rem;
     color: #fff;

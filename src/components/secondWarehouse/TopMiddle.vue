@@ -1,11 +1,11 @@
 <template>
   <div class="topMiddle">
     <div class="ware contentLeft">
-      <div class="content">
-        <div class="pic">
+      <div class="midContent">
+        <div class="midPic">
           <img :src="cold.imgUrl" alt="">
         </div>
-        <div class="text">
+        <div class="midText">
           <p class="title">{{cold.name}}</p>
           <i class="number">{{cold.value}}</i>
           <i class="unit">{{cold.unit}}</i>
@@ -13,11 +13,11 @@
       </div>
     </div>
     <div class="ware contentRight">
-      <div class="content">
-        <div class="pic">
+      <div class="midContent">
+        <div class="midPic">
           <img :src="freeze.imgUrl" alt="">
         </div>
-        <div class="text">
+        <div class="midText">
           <p class="title">{{freeze.name}}</p>
           <i class="number">{{freeze.value}}</i>
           <i class="unit">{{freeze.unit}}</i>
@@ -64,45 +64,48 @@
     width: 1.62rem;
   }
 
-  .content {
+  .midContent {
     position: absolute;
-    width: 1.2rem;
-    height: .60rem;
-    margin: -.30rem 0 0 -.55rem;
+    width:100%;
+    overflow: hidden;
+    height: .80rem;
+    margin: -.40rem 0 0 0;
+    text-align: center;
     top: 50%;
-    left: 50%;
   }
 
-  .topMiddle .pic {
-    margin: .10rem .1rem 0 0;
+  .topMiddle .midPic {
+    position: absolute;
+    top: 50%;
+    left: .1rem;
+    margin:-.2rem 0 0 0;
     width: .40rem;
     height: .40rem;
     display: inline-block;
-    float: left;
   }
 
-  .topMiddle .pic img {
+  .topMiddle .midPic img {
     width: 100%;
     height: 100%;
     display: block;
   }
 
-  .topMiddle .text {
+  .topMiddle .midText {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 50%;
+    left: .5rem;
+    margin:-.3rem 0 0 0;
     display: inline-block;
     font-size: .14rem;
     color: #9ca1b2;
     font-weight: bold;
-    float: right;
   }
 
-  .topMiddle .text .title {
+  .topMiddle .midText .title {
     margin: 0;
   }
 
-  .text .number {
+  .midText .number {
     font-size: .28rem;
     color: #fff;
     font-weight: bold;
