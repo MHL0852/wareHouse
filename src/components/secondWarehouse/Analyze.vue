@@ -11,7 +11,7 @@
 
 <script>
   import echarts from "echarts"
-  import {getLacation} from "../../API"
+  import {getLacation,util} from "../../API"
   export default {
     name: "Analyze",
     props:["msg"],
@@ -19,7 +19,13 @@
       let myEchart = echarts.init(this.$refs.analyzePie);
       window.addEventListener("resize",myEchart.resize);
 
-      this.$http.get(`${getLacation}?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringPieChartReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+      util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        params: {
+          serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+          method: 'warehouseMonitoringPieChartReport',
+          wareHouseId:this.$route.params.bid
+        }
+      }).then(response => {
         let res=JSON.parse(response.data.data.data);
         let wareHouseVolumn=1;
          res[0]? wareHouseVolumn=res[0].wareHouseVolumn:null;

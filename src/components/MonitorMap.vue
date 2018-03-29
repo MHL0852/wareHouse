@@ -23,7 +23,7 @@
   import "../../node_modules/echarts/map/js/province/shanghai.js"
   import "../..//node_modules/echarts/map/js/china.js"
   import "../../static/map/echarts.min"
-  import {getLacation} from "../API"
+  import {getLacation,util} from "../API"
 
   export default {
     name: "monitor-map",
@@ -31,23 +31,8 @@
       return {
         isFullScreen:false,
         clicks:()=> {
-          let element = window.parent.document.documentElement;
-          let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
-          if (requestMethod) {
-            let myIframe=null,
-              myIframes=window.parent.document.getElementsByTagName("iframe");
-            [].forEach.call(myIframes,item=>{
-              if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
-                requestMethod.call(item);
-              }
-            });
-
-          } else if (typeof window.ActiveXObject !== "undefined") {
-            let wscript = new ActiveXObject("WScript.Shell");
-            if (wscript !== null) {
-              wscript.SendKeys("{F11}");
-            }
-          }
+          let href=window.location.href;
+          window.open(href)
         },
         informationData: {
           title: "异常消息",
@@ -129,18 +114,23 @@
       Information
     },
     methods: {
+      init() {
+
+        let tip =  window.self === window.top
+        if(!tip){
+          this.clicks=()=>{
+            let href=window.location.href;
+            window.open(href)
+          }
+        }else{
+          this.clicks=this.fullScreen;
+        }
+      },
       fullScreen() {
-        let element = window.parent.document.documentElement;
+        let element = document.documentElement;
         let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
         if (requestMethod) {
-          let myIframe=null,
-            myIframes=window.parent.document.getElementsByTagName("iframe");
-          [].forEach.call(myIframes,item=>{
-            if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
-              requestMethod.call(item);
-            }
-          });
-
+          requestMethod.call(this.$refs.wareContainer);
         } else if (typeof window.ActiveXObject !== "undefined") {
           let wscript = new ActiveXObject("WScript.Shell");
           if (wscript !== null) {
@@ -148,24 +138,23 @@
           }
         }
       },//全屏
-      exitFullscreen(){
-        let elem = window.parent.document;
-        if(elem.webkitCancelFullScreen){
+      exitFullscreen() {
+        let elem = document;
+        if (elem.webkitCancelFullScreen) {
           elem.webkitCancelFullScreen();
-        }else if(elem.mozCancelFullScreen){
+        } else if (elem.mozCancelFullScreen) {
           elem.mozCancelFullScreen();
-        }else if(elem.cancelFullScreen){
+        } else if (elem.cancelFullScreen) {
           elem.cancelFullScreen();
-        }else if(elem.exitFullscreen){
+        } else if (elem.exitFullscreen) {
           elem.exitFullscreen();
-        }else if (document.msExitFullscreen) {
+        } else if (document.msExitFullscreen) {
           document.msExitFullscreen();
-        }else{
+        } else {
           //浏览器不支持全屏API或已被禁用
         }
       },//退出全屏
       screenChange(){
-        let element = window.parent.document.documentElement;
         window.addEventListener("fullscreenchange", () => {
           this.isFullScreen = !this.isFullScreen;
           if(this.isFullScreen){
@@ -184,7 +173,7 @@
           }
         }, false);
 
-        element.addEventListener("webkitfullscreenchange",  ()=> {
+        window.addEventListener("webkitfullscreenchange",  ()=> {
           this.isFullScreen = !this.isFullScreen;
           if(this.isFullScreen){
             this.clicks=this.exitFullscreen
@@ -208,7 +197,12 @@
         let ware = [],
           shop = [],
           car = [];
-        this.$http.get(getLacation+'?serviceName=com.vtradex.order.api.LocationApi&method=findOrgLoc').then(response => {
+        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+          params: {
+            serviceName: 'com.vtradex.order.api.LocationApi',
+            method: 'findOrgLoc',
+          }
+        }).then(response => {
           let shops = JSON.parse(response.data.data.shop);
           let wares = JSON.parse(response.data.data.warehouse);
           shops.forEach(item => {
@@ -222,16 +216,16 @@
               })
             }
           })
-            wares.forEach(item => {
-              if (item.longitude && item.latitude) {
-                ware.push({
-                  name: item.name,
-                  value: [item.longitude, item.latitude, item.city, item.district],
-                  city: item.city,
-                  district: item.district,
-                  address: item.address
-                })
-              }
+          wares.forEach(item => {
+            if (item.longitude && item.latitude) {
+              ware.push({
+                name: item.name,
+                value: [item.longitude, item.latitude, item.city, item.district],
+                city: item.city,
+                district: item.district,
+                address: item.address
+              })
+            }
           });
           !ware[0] ? ware = [
             {name: "一号仓", value: [122.111, 31.125, 200]},
@@ -295,7 +289,7 @@
             tooltip: {
               formatter: (value) => {
                 value = value.data;
-               let  name=value.name?value.name:"";
+                let  name=value.name?value.name:"";
                 let city=value.city?value.city:"";
                 let district=value.district?value.district:"";
                 let address=value.address?value.address:"";
@@ -355,6 +349,7 @@
       }
     },
     mounted() {
+      this.init();
       this.screenChange();
       this.getData();
     },
@@ -363,11 +358,8 @@
 
 <style scoped>
   .map {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    padding: 0;
-    margin:-4.5rem 0 0 -9.6rem;
+    display: flex;
+
     font-size: 0.18rem;
     width: 19.2rem;
     height: 9rem;

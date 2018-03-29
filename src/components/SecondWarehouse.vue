@@ -45,7 +45,7 @@
   import Temperature from "./secondWarehouse/temperature"
   import Inventory from "./secondWarehouse/Inventory"
   import Information from "./secondWarehouse/Information"
-  import {getLacation} from "../API"
+  import {getLacation,util} from "../API"
 
   let timer;
 
@@ -56,23 +56,8 @@
       return {
         isFullScreen:false,
         clicks:()=> {
-          let element = window.parent.document.documentElement;
-          let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
-          if (requestMethod) {
-            let myIframe=null,
-              myIframes=window.parent.document.getElementsByTagName("iframe");
-            [].forEach.call(myIframes,item=>{
-              if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
-                requestMethod.call(item);
-              }
-            });
-
-          } else if (typeof window.ActiveXObject !== "undefined") {
-            let wscript = new ActiveXObject("WScript.Shell");
-            if (wscript !== null) {
-              wscript.SendKeys("{F11}");
-            }
-          }
+          let href=window.location.href;
+          window.open(href)
         },
         topData: {//头部数据
           backUrl:"../../static/SecondWarehouse/fanhui.png",
@@ -312,18 +297,20 @@
       }
     },
     methods: {
+      init() {
+        let tip =  window.self === window.top
+        if(!tip){
+          let href=window.location.href;
+          window.open(href)
+        }else{
+          this.clicks=this.fullScreen;
+        }
+      },
       fullScreen() {
-        let element = window.parent.document.documentElement;
+        let element = document.documentElement;
         let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
         if (requestMethod) {
-          let myIframe=null,
-            myIframes=window.parent.document.getElementsByTagName("iframe");
-          [].forEach.call(myIframes,item=>{
-            if((item.className.indexOf("gwt-Frame")>-1)&&item.src){
-              requestMethod.call(item);
-            }
-          });
-
+          requestMethod.call(this.$refs.wareContainer);
         } else if (typeof window.ActiveXObject !== "undefined") {
           let wscript = new ActiveXObject("WScript.Shell");
           if (wscript !== null) {
@@ -331,24 +318,23 @@
           }
         }
       },//全屏
-      exitFullscreen(){
-        let elem = window.parent.document;
-        if(elem.webkitCancelFullScreen){
+      exitFullscreen() {
+        let elem = document;
+        if (elem.webkitCancelFullScreen) {
           elem.webkitCancelFullScreen();
-        }else if(elem.mozCancelFullScreen){
+        } else if (elem.mozCancelFullScreen) {
           elem.mozCancelFullScreen();
-        }else if(elem.cancelFullScreen){
+        } else if (elem.cancelFullScreen) {
           elem.cancelFullScreen();
-        }else if(elem.exitFullscreen){
+        } else if (elem.exitFullscreen) {
           elem.exitFullscreen();
-        }else if (document.msExitFullscreen) {
+        } else if (document.msExitFullscreen) {
           document.msExitFullscreen();
-        }else{
+        } else {
           //浏览器不支持全屏API或已被禁用
         }
       },//退出全屏
       screenChange(){
-        let element = window.parent.document.documentElement;
         window.addEventListener("fullscreenchange", () => {
           this.isFullScreen = !this.isFullScreen;
           if(this.isFullScreen){
@@ -367,7 +353,7 @@
           }
         }, false);
 
-        element.addEventListener("webkitfullscreenchange",  ()=> {
+        window.addEventListener("webkitfullscreenchange",  ()=> {
           this.isFullScreen = !this.isFullScreen;
           if(this.isFullScreen){
             this.clicks=this.exitFullscreen
@@ -386,7 +372,13 @@
         }, false);
       },
       getData() {
-        this.$http.get(`${getLacation}?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+          params: {
+            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            wareHouseId:this.$route.params.bid,
+            method: 'warehouseMonitoringReport'
+          }
+        }).then(response => {
           let res = JSON.parse(response.data.data.data);
 
           this.topData.topRight[0].num1 = res.waitPickUpOrderNum;
@@ -398,10 +390,14 @@
           this.topData.topRight[2].num1 = res.overOrderNumToday;
           this.topData.topRight[2].num2 = res.overGoodsNumToday;
         }, err => {
-          console.log(err);
         });
-
-        this.$http.get(`${getLacation}?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.$route.params.bid}`).then(response => {
+        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+          params: {
+            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            wareHouseId:this.$route.params.bid,
+            method: 'warehouseInventoryMessageReport'
+          }
+        }).then(response => {
           let res = response.data.data.data?JSON.parse(response.data.data.data):{};
 
           let cur=(res.temperateVolume +res.coldVolume +res.freezeVolume)||0;
@@ -417,6 +413,7 @@
       }
     },
     mounted() {
+      this.init();
       this.screenChange();
       this.getData();
       if (timer) {
@@ -440,14 +437,10 @@
 
 <style scoped>
   .back {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin:-4.5rem 0 0 -9.6rem;
-    padding: 0;
-    width: 19.20rem;
+    display: flex;
+    width: 19.2rem;
+    height: 9rem;
     min-width: 1000px;
-    height: 9.00rem;
     background: #2a2d3b;
   }
   .comeToFirst{

@@ -13,7 +13,7 @@
 <script>
   import TopPart from './TopPart'
   import ButtonPart from './ButtonPart'
-  import {getLacation} from "../../API"
+  import {getLacation,util} from "../../API"
 
   let timer;
 
@@ -88,7 +88,13 @@
     },
     methods: {
       getData() {
-        this.$http.get(getLacation+`?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseMonitoringReport&wareHouseId=${this.msg.id}`).then(response => {
+        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+          params: {
+            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            method: 'warehouseMonitoringReport',
+            wareHouseId:this.msg.id
+          }
+        }).then(response => {
           let data = response.data.data.data;
           data = JSON.parse(data);
 
@@ -102,7 +108,13 @@
           console.log(err);
         });
 
-        this.$http.get(getLacation+`?serviceName=com.vtradex.wms.api.inventory.InventoryApi&method=warehouseInventoryMessageReport&wareHouseId=${this.msg.id}`).then(response => {
+        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+          params: {
+            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            method: 'warehouseInventoryMessageReport',
+            wareHouseId:this.msg.id
+          }
+        }).then(response => {
           let data = response.data.data.data||
             JSON.stringify({"wareHouseId" : 0, "coldVolume" : 0, "freezeVolume" : 0,"coldVolumeTotal" : 0, "freezeVolumeTotal" : 0});
           data = JSON.parse(data);
