@@ -27,7 +27,7 @@
     display: inline-block;
     padding: 0;
     float: left;
-    width: 4.2rem;
+    width: 4.32rem;
     height: 100%;
     background: #343743;
     overflow: hidden;

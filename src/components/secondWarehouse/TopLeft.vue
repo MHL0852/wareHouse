@@ -1,13 +1,13 @@
 <template>
   <div class="topLeft">
-    <div class="inner">
+    <div class="inner" v-for="data in msg">
       <div class="pic">
-        <img :src="msg.imgUrl" alt="">
+        <img :src="data.imgUrl" alt="">
       </div>
       <ul class="text">
-        <li class="top"><p class="title">{{msg.title}}</p></li>
-        <li class="bottom"><i class="num">{{typeof (msg.number)==="number"?msg.number.toFixed(1):msg.number}}</i><i
-          class="unit">{{msg.unit}}</i></li>
+        <li class="top"><p class="title">{{data.title}}</p></li>
+        <li class="bottom"><i class="num">{{typeof (data.number)==="number"?data.number.toFixed(1):data.number}}</i><i
+          class="unit">{{data.unit}}</i></li>
       </ul>
     </div>
   </div>
@@ -27,42 +27,40 @@
 <style scoped>
   .topLeft {
     display: inline-block;
-    float: left;
     margin: .10rem;
     position: relative;
-    width: 2.30rem;
+    width: 6rem;
     height: 1.00rem;
     background: #343743;
+    font-size:0;
   }
 
   .topLeft .inner {
     text-align: center;
-    position: absolute;
-    width: 100%;
-    height: .60rem;
-    margin: -.25rem 0 0 0;
-    top: 50%;
-    left: 0;
+    display: inline-block;
+    padding-top:.2rem;
+    width: 2rem;
+    border-right: 1px solid #2a2d3b;
+    height: 100%;
   }
 
   .topLeft .pic {
-    float: left;
-    margin-left:.3rem;
     width: .42rem;
     height: .42rem;
-    display: inline-block;
+    vertical-align: middle;
+    margin:0 .05rem 0 .25rem;
+    display: inline-block !important;
   }
 
   .topLeft .pic img {
-    display: block;
     width: 100%;
     height: 100%;
   }
 
   .topLeft .text {
-    float:left;
     display: inline-block;
-    width: 1.45rem;
+    vertical-align: middle;
+    width: 1.15rem;
     font-size: .14rem;
     margin: 0 0 0 .1rem;
     color: #9ca1b2;
@@ -75,13 +73,15 @@
     margin: 0;
   }
 
+  .text .bottom{
+    text-align: left;
+  }
+
   .text .bottom .num {
     display: inline-block;
+    vertical-align: middle;
     max-width: 80%;
-    float: left;
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     font-size: .28rem;
     color: #fff;
     font-weight: bold;
@@ -89,8 +89,8 @@
   }
   .text .bottom .unit{
     display: inline-block;
-    margin:.18rem 0 0 0;
-    float: left;
+    vertical-align: -40%;
+    font-size:.14rem;
   }
 
 </style>

@@ -8,27 +8,28 @@
             <img :src="topData.backUrl" alt="">
           </div>
         </router-link>
-        <TopLeft v-for="(data,index) in topData.allRepertory" :msg="data" :key="index+1000.2"></TopLeft>
+        <TopLeft :msg="topData.allRepertory"></TopLeft>
         <TopMiddle :cold="topData.coldStorage" :freeze="topData.freeze"></TopMiddle>
-        <TopRight v-for="(data,index) in topData.topRight" :msg="data" :key="index+100.1"></TopRight>
+        <TopRight v-for="data in topData.topRight" :msg="data"></TopRight>
       </div>
       <div class="body clearfix">
         <div class="bodyLeft clearfix">
           <Analyze :msg="bodyData.analyze"></Analyze>
+          <AvgWareAge :msg="bodyData.AvgWareAge"></AvgWareAge>
           <Temperature :data="bodyData.temperature"></Temperature>
           <Inventory :msg="bodyData.inventory"></Inventory>
           <div class="informationBox clearfix">
             <Information :msg="bodyData.information"></Information>
           </div>
-        </div>
-        <div class="bodyRight">
-          <div class="on_off_box clearfix">
-            <Information :msg="bodyData.on_off"></Information>
-          </div>
-          <div class="video">
-            <div class="videoContent">
-              <img :src="bodyData.videoUrl" alt="">
-              <span>视频监控</span>
+          <div class="on_off">
+            <div class="on_off_box clearfix">
+              <Information :msg="bodyData.on_off"></Information>
+            </div>
+            <div class="video">
+              <div class="videoContent">
+                <img :src="bodyData.videoUrl" alt="">
+                <span>视频监控</span>
+              </div>
             </div>
           </div>
         </div>
@@ -42,6 +43,7 @@
   import TopMiddle from "./secondWarehouse/TopMiddle"
   import TopRight from "./secondWarehouse/TopRight"
   import Analyze from "./secondWarehouse/Analyze"
+  import AvgWareAge from "./secondWarehouse/avgWareAge"
   import Temperature from "./secondWarehouse/temperature"
   import Inventory from "./secondWarehouse/Inventory"
   import Information from "./secondWarehouse/Information"
@@ -60,62 +62,87 @@
           window.open(href)
         },
         topData: {//头部数据
-          backUrl:"../../static/SecondWarehouse/fanhui.png",
+          backUrl:"static/SecondWarehouse/fanhui.png",
           allRepertory: [
             {//总库存
               title: "当前库存总量",
               number: 8000,
               unit: "方",
-              imgUrl: "../../../static/SecondWarehouse/ware_top1_01.png"
+              imgUrl: "static/SecondWarehouse/ware_top1_01.png"
+            },
+            {//总库存
+              title: "可用空间",
+              number: "700",
+              unit: "方",
+              imgUrl: "static/SecondWarehouse/ware_top1_05.png"
             },
             {//总库存
               title: "库满度",
               number: "30",
               unit: "%",
-              imgUrl: "../../../static/SecondWarehouse/ware_top1_02.png"
+              imgUrl: "static/SecondWarehouse/ware_top1_02.png"
             }
           ],
           coldStorage: {
-            imgUrl: "../../../static/SecondWarehouse/ware_top1_03.png",
+            imgUrl: "static/SecondWarehouse/ware_top1_03.png",
             name: "冷藏库温度",
             value: 5,
             unit: "℃"
           },
           freeze: {
-            imgUrl: "../../../static/SecondWarehouse/ware_top1_04.png",
+            imgUrl: "static/SecondWarehouse/ware_top1_04.png",
             name: "冷冻库温度",
             value: -10,
             unit: "℃"
           },
           topRight: [
             {
-              title: "待备货量",
-              imgUrl: "../../../static/SecondWarehouse/ware_top1_05.png",
-              num1: 56,
-              num2: 168,
-              unit1: "单",
-              unit2: '件'
+              title: "入库量",
+              imgUrl: "static/SecondWarehouse/ware_top1_06.png",
+              color:'#fe8463',
+              wareDetailFinished:{
+                num1: 15,
+                num2: 168,
+                num3: 868,
+                unit1: "单",
+                unit2: '件',
+                unit3: '方'
+              },
+              wareDetailUnfinished:{
+                num1: 8,
+                num2: 50,
+                num3: 300,
+                unit1: "单",
+                unit2: '件',
+                unit3: '方'
+              }
             },
             {
-              title: "待发货量",
-              imgUrl: "../../../static/SecondWarehouse/ware_top1_06.png",
-              num1: 57,
-              num2: 168,
-              unit1: "单",
-              unit2: '件'
+              title: "出库量",
+              imgUrl: "static/SecondWarehouse/ware_top1_07.png",
+              color:'#9bca63',
+              wareDetailFinished:{
+                num1: 15,
+                num2: 168,
+                num3: 868,
+                unit1: "单",
+                unit2: '件',
+                unit3: '方'
+              },
+              wareDetailUnfinished:{
+                num1: 8,
+                num2: 50,
+                num3: 300,
+                unit1: "单",
+                unit2: '件',
+                unit3: '方'
+              }
             },
-            {
-              title: "今日已完成货量",
-              imgUrl: "../../../static/SecondWarehouse/ware_top1_05.png",
-              num1: 98,
-              num2: 768,
-              unit1: "单",
-              unit2: '件'
-            }
           ],
 
         },
         bodyData: {//主体表格数据
+          AvgWareAge:{},
           analyze: {//左上饼状图数据
             names: ['飞轮', '槲叶食品', '柯贤度', '活力食品', '飞鹤'],
             colors: ["#fe8563", "#9acb62", "#fad960", "#60c1dd", "#0085c5"],
@@ -156,52 +183,52 @@
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
               {
                 info: "冷藏库门超时未关",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+                imgUrl: "static/SecondWarehouse/ware_error.png"
               },
 
             ]
@@ -212,87 +239,31 @@
               {
                 info: "冷藏库门",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_open.png"
+                imgUrl: "static/SecondWarehouse/ware_open.png"
               },
               {
                 info: "冷藏库门",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_close.png"
+                imgUrl: "static/SecondWarehouse/ware_close.png"
               },
               {
                 info: "冷藏库门",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_open.png"
+                imgUrl: "static/SecondWarehouse/ware_open.png"
               },
               {
                 info: "冷藏库门",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_close.png"
+                imgUrl: "static/SecondWarehouse/ware_close.png"
               },
               {
                 info: "冷藏库门",
                 date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_open.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_close.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_open.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_close.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_open.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_close.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_open.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_close.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_open.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_close.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_open.png"
-              },
-              {
-                info: "冷藏库门",
-                date: "2018-3-2 15:32:46",
-                imgUrl: "../../../static/SecondWarehouse/ware_close.png"
-              },
-
+                imgUrl: "static/SecondWarehouse/ware_open.png"
+              }
             ]
           },
-          videoUrl: "../../../static/SecondWarehouse/ware_camera.png"
+          videoUrl: "static/SecondWarehouse/ware_camera.png"
         }
       }
     },
@@ -386,9 +357,6 @@
 
           this.topData.topRight[1].num1 = res.waitSendOrderNum;
           this.topData.topRight[1].num2 = res.waitSendGoodsNum;
-
-          this.topData.topRight[2].num1 = res.overOrderNumToday;
-          this.topData.topRight[2].num2 = res.overGoodsNumToday;
         }, err => {
         });
         util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
@@ -430,7 +398,8 @@
       Analyze,
       Temperature,
       Inventory,
-      Information
+      Information,
+      AvgWareAge
     }
   }
 </script>
@@ -488,7 +457,7 @@
   }
 
   .container .body .bodyLeft {
-    width: 14.50rem;
+    width: 100%;
     display: inline-block;
     float: left;
   }
@@ -509,18 +478,25 @@
     margin: .09rem;
   }
 
-  .container .on_off_box {
+  .container .on_off{
+    margin: .09rem;
+    float: left;
     width: 4.29rem;
-    height: 6.07rem;
+    height: 3.6rem;
     background: #343743;
   }
 
-  .body .bodyRight .video {
+  .container .on_off_box {
+    width: 4.32rem;
+    height: 2.53rem;
+    background: #343743;
+  }
+
+  .body .on_off .video {
     position: relative;
     background: #0085c5;
-    width: 4.29rem;
+    width: 4.32rem;
     height: 1.06rem;
-    margin-top: .24rem;
   }
 
   .body .video .videoContent {
