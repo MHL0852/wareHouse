@@ -11,8 +11,8 @@
 </template>
 
 <script>
-  import TopPart from './FirstWarehouse/TopPart'
-  import ButtonPart from './FirstWarehouse/ButtonPart'
+  import TopPart from './FirstWarehouse/left/TopPart'
+  import ButtonPart from './FirstWarehouse/left/ButtonPart'
   import Part from "./FirstWarehouse/part"
   import {getLacation,util} from "../API/index"
 

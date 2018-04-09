@@ -23,13 +23,13 @@
           <p>库满度</p>
         </div>
       </li>
-      <li class="indent setout" v-for="(item,index) in msg.val" :key="index">
+      <!--<li class="indent setout" v-for="(item,index) in msg.val" :key="index">
         <img :src="item.imgUrl" alt="" class="warePic">
         <div class="wareText">
           <i class="wareNum">{{item.num}}</i><i>{{item.unit}}</i>
         </div>
         <div class="wareText_bottom"><i>{{item.style}}</i></div>
-      </li>
+      </li>-->
     </ul>
   </div>
 </template>
@@ -124,7 +124,7 @@
   .freeze {
     position: absolute;
     left: 0;
-    width: 100% !important;
+    width: 2.66rem;
     height: 2.09rem !important;
     background: #3E414D;
     border-bottom: 1px #2a2d3b solid;
@@ -132,7 +132,7 @@
   }
 
   .freeze ul {
-    width: 8.81rem;
+    width: 2.66rem;
     height: 100%;
   }
 
