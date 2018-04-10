@@ -14,7 +14,7 @@
   import TopPart from './FirstWarehouse/TopPart'
   import ButtonPart from './FirstWarehouse/ButtonPart'
   import Part from "./FirstWarehouse/part"
-  import {getLacation,util} from "../API/index"
+  import {getLacation,util} from "@/API/index"
 
   export default {
     name: "first-warehouse",

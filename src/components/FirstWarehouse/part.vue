@@ -26,7 +26,7 @@
         name: '仓库1',
         topValue: {
           wareAbout: {
-            imgUrl: "../../../static/FirstWarehouse/ware_07.png",
+            imgUrl: "static/FirstWarehouse/ware_07.png",
             full: 0,
             cur: 0,
             wareName: "冷藏库",
@@ -36,19 +36,19 @@
             {
               num: 0,
               unit: '单',
-              imgUrl: "../../../static/FirstWarehouse/ware_01.png",
+              imgUrl: "static/FirstWarehouse/ware_01.png",
               style: "待备货单量"
             },
             {
               num: 0,
               unit: '单',
-              imgUrl: "../../../static/FirstWarehouse/ware_03.png",
+              imgUrl: "static/FirstWarehouse/ware_03.png",
               style: "待发货单量"
             },
             {
               num: 0,
               unit: '单',
-              imgUrl: "../../../static/FirstWarehouse/ware_05.png",
+              imgUrl: "static/FirstWarehouse/ware_05.png",
               style: "今日已完成单量"
             }
           ]
@@ -60,25 +60,25 @@
             temperature: -15,
             full: 0,
             cur: 0,
-            imgUrl: "../../../static/FirstWarehouse/ware_08.png"
+            imgUrl: "static/FirstWarehouse/ware_08.png"
           },
           val: [
             {
               num: 0,
               unit: '件',
-              imgUrl: "../../../static/FirstWarehouse/ware_02.png",
+              imgUrl: "static/FirstWarehouse/ware_02.png",
               style: "待备货件数"
             },
             {
               num: 0,
               unit: '件',
-              imgUrl: "../../../static/FirstWarehouse/ware_04.png",
+              imgUrl: "static/FirstWarehouse/ware_04.png",
               style: "待发货件量数"
             },
             {
               num: 0,
               unit: '件',
-              imgUrl: "../../../static/FirstWarehouse/ware_06.png",
+              imgUrl: "static/FirstWarehouse/ware_06.png",
               style: "今日已完成件量数"
             }
           ]

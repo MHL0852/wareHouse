@@ -40,52 +40,52 @@
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
             {
               info: "冷藏库门超时未关",
               date: "2018-3-2 15:32:46",
-              imgUrl: "../../../static/SecondWarehouse/ware_error.png"
+              imgUrl: "static/SecondWarehouse/ware_error.png"
             },
 
           ]
