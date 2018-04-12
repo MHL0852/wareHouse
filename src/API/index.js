@@ -4,7 +4,7 @@ const getLacation = "http//quickxs.56linked.com/vcloudwood-gateway/vcloudwood/ga
 let devURL = 'https://gw.56linked.com';
 let prodURL = 'http://quickxs.56linked.com';
 let util = axios.create({
-  baseURL: prodURL
+  baseURL: devURL
 });
 
 export {

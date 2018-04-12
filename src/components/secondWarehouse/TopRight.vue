@@ -71,13 +71,14 @@
     text-align: left;
     font-size: .26rem;
     font-weight: bold;
-    margin-right: .05rem;
+    margin-right: .08rem;
     color: #fff;
   }
 
   .line {
     display: inline-block;
     width: 1px;
+    opacity: 0.4;
     height: 50%;
     background: -webkit-linear-gradient(#343743, #5d5e69, #343743);
     background: -o-linear-gradient(#343743, #5d5e69, #343743);
@@ -135,6 +136,8 @@
   }
 
   .topRight .text .wareDetailFinished {
+    white-space: nowrap;
+    overflow: hidden;
     margin-top: 3%;
     height: 40%;
     width: 100%;

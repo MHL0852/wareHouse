@@ -91,7 +91,6 @@
   }
 
   .pie {
-    border-top: 1px solid #5b5f66;
     width: 100%;
     height: 3.08rem;
   }

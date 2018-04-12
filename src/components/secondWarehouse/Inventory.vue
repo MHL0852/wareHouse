@@ -41,7 +41,7 @@
           },
           xAxis:
             {
-              name: '时间',
+              name: '  时间',
               nameLocation: "end",
               nameTextStyle: {
                 color: "#fff",

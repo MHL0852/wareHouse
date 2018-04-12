@@ -5,7 +5,7 @@
     </div>
     <div class="body">
       <div id="charts">
-        <div id="main" ref="temperatureLine" style="width: 9.00rem;height:3.00rem;"></div>
+        <div id="main" ref="temperatureLine" style="width: 100%;height:3.00rem;"></div>
       </div>
     </div>
   </div>
@@ -186,6 +186,11 @@
     height: 3.60rem;
     background: #343743;
   }
+
+  .temperature .top{
+    border-bottom: 1px solid #5b5f66;
+  }
+
   .temperature .top h4{
     color:#fff;
     font-size: .18rem;

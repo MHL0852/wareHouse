@@ -10,7 +10,7 @@
         </router-link>
         <TopLeft :msg="topData.allRepertory"></TopLeft>
         <TopMiddle :cold="topData.coldStorage" :freeze="topData.freeze"></TopMiddle>
-        <TopRight v-for="data in topData.topRight" :msg="data"></TopRight>
+        <TopRight v-for="data,index in topData.topRight" :msg="data" :key="index"></TopRight>
       </div>
       <div class="body clearfix">
         <div class="bodyLeft clearfix">
@@ -244,6 +244,11 @@
               {
                 info: "冷藏库门",
                 date: "2018-3-2 15:32:46",
+                imgUrl: "static/SecondWarehouse/ware_open.png"
+              },
+              {
+                info: "冷藏库门",
+                date: "2018-3-2 15:32:46",
                 imgUrl: "static/SecondWarehouse/ware_close.png"
               },
               {
@@ -357,8 +362,10 @@
 
           this.topData.topRight[1].num1 = res.waitSendOrderNum;
           this.topData.topRight[1].num2 = res.waitSendGoodsNum;
-        }, err => {
+        },
+          err => {
         });
+
         util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
           params: {
             serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
@@ -375,7 +382,8 @@
           let ratio = cur / full < 1 ? cur / full * 100 : 100;
           ratio = ratio > 0 ? ratio : 0;
           this.topData.allRepertory[1].number = Math.round(ratio);
-        }, err => {
+        },
+          err => {
           console.log(err);
         });
       }
@@ -488,7 +496,8 @@
 
   .container .on_off_box {
     width: 4.32rem;
-    height: 2.53rem;
+    height: 2.79rem;
+    border-bottom: .2rem solid #2a2d3b;
     background: #343743;
   }
 
@@ -496,7 +505,7 @@
     position: relative;
     background: #0085c5;
     width: 4.32rem;
-    height: 1.06rem;
+    height: 0.8rem;
   }
 
   .body .video .videoContent {
