@@ -192,6 +192,8 @@
 
   .freeze .temperature .temperatureNum {
     text-align: right;
+    max-width: 0.8rem;
+    overflow: hidden;
     font-size: .30rem;
     padding-right: .05rem;
     color: #fff;

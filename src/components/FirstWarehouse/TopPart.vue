@@ -198,6 +198,8 @@
   .coldStorage .temperature .temperatureNum{
     text-align: right;
     font-size:.30rem;
+    max-width: 0.8rem;
+    overflow: hidden;
     padding-right: .05rem;
     color:#fff;
   }

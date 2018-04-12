@@ -79,6 +79,7 @@
   float: left;
   margin:0 .15rem;
   width:1px;
+  opacity: 0.3;
   height: .40rem;
   background: linear-gradient(to bottom,#343743,#9ca1b2,#343743);
 }

@@ -36,17 +36,19 @@
   }
 
   .topLeft .inner {
+    font-size: 0;
     text-align: center;
     position: absolute;
     width: 100%;
     height: .60rem;
-    margin: -.25rem 0 0 0;
+    margin: -.3rem 0 0 0;
     top: 50%;
     left: 0;
   }
 
   .topLeft .pic {
-    float: left;
+    /*float: left;*/
+    vertical-align: middle;
     margin-left:.3rem;
     width: .42rem;
     height: .42rem;
@@ -60,8 +62,9 @@
   }
 
   .topLeft .text {
-    float:left;
+    /*float:left;*/
     display: inline-block;
+    vertical-align: middle;
     width: 1.45rem;
     font-size: .14rem;
     margin: 0 0 0 .1rem;

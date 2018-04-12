@@ -13,7 +13,8 @@
 <script>
   import TopPart from './TopPart'
   import ButtonPart from './ButtonPart'
-  import {getLacation,util} from "../../API"
+  import {util} from "../../API"
+  import moment from 'moment'
 
   let timer;
 
@@ -88,6 +89,9 @@
     },
     methods: {
       getData() {
+        /**
+        * 获取订单数据
+        **/
         util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
           params: {
             serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
@@ -97,17 +101,22 @@
         }).then(response => {
           let data = response.data.data.data;
           data = JSON.parse(data);
-
-          this.topValue.val[0].num = data.waitPickUpOrderNum;
-          this.topValue.val[1].num = data.waitSendOrderNum;
-          this.topValue.val[2].num = data.overOrderNumToday;
-          this.bottomValue.val[0].num = data.waitPickUpGoodsNum;
-          this.bottomValue.val[1].num = data.waitSendGoodsNum;
-          this.bottomValue.val[2].num = data.overGoodsNumToday;
-        }, err => {
+            console.log(data);
+            this.topValue.val[0].num = data.waitPickUpOrderNum || 0;
+          this.topValue.val[1].num = data.waitSendOrderNum || 0;
+          this.topValue.val[2].num = data.overOrderNumToday || 0;
+          this.bottomValue.val[0].num = data.waitPickUpGoodsNum || 0;
+          this.bottomValue.val[1].num = data.waitSendGoodsNum || 0;
+          this.bottomValue.val[2].num = data.overGoodsNumToday || 0;
+        },
+          err => {
           console.log(err);
         });
 
+
+        /**
+        * 获取库存容积
+        **/
         util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
           params: {
             serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
@@ -115,17 +124,42 @@
             wareHouseId:this.msg.id
           }
         }).then(response => {
-          let data = response.data.data.data||
-            JSON.stringify({"wareHouseId" : 0, "coldVolume" : 0, "freezeVolume" : 0,"coldVolumeTotal" : 0, "freezeVolumeTotal" : 0});
-          data = JSON.parse(data);
-          this.topValue.wareAbout.cur = data.coldVolume  ;//冷藏库存
+          let data = response.data.data.data;
+          data = data?JSON.parse(data):{
+                "coldVolume": 0,
+                "freezeVolume": 0,
+                "coldVolumeTotal": 0,
+                "freezeVolumeTotal": 0
+            };
+            this.topValue.wareAbout.cur = data.coldVolume  ;//冷藏库存
           this.bottomValue.wareAbout.cur = data.freezeVolume ;//冷冻库存
           this.topValue.wareAbout.full = data.coldVolumeTotal;//冷藏总容积
           this.bottomValue.wareAbout.full = data.freezeVolumeTotal;//冷冻总容积
           this.flag = true;
-        }, err => {
+        },
+          err => {
           console.log(err);
         });
+
+
+        /**
+        * 获取温度
+        **/
+        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+          params: {
+            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            wareHouseId:this.msg.id,
+            method: 'getWarehouseTemperateById'
+          }
+        }).then(response => {
+            let res = response.data.data.data?JSON.parse(response.data.data.data):{};
+            this.topValue.wareAbout.temperature=isNaN(res.cold)?'-':res.cold;
+            this.bottomValue.wareAbout.temperature=isNaN(res.freeze)?'-':res.freeze;
+
+          },
+          err => {
+            console.log(err);
+          });
       }
     },
     mounted() {
@@ -180,6 +214,9 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    letter-spacing: 4px;
+    writing-mode: vertical-lr;
+    writing-mode: tb-lr
   }
 
   .warehouseDetail .body {

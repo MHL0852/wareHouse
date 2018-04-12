@@ -41,17 +41,16 @@
           },
           xAxis:
             {
-              name: '时间',
+              name: '  时间',
               nameLocation: "end",
               nameTextStyle: {
                 color: "#fff",
                 fontSize: 14,
+                align:'left',
                 verticalAlign: "bottom",
-
               },
               axisLabel: {
                 color: "#727483",
-
               },
               type: 'category',
               boundaryGap:

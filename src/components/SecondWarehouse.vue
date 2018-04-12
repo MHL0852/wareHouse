@@ -45,7 +45,8 @@
   import Temperature from "./secondWarehouse/temperature"
   import Inventory from "./secondWarehouse/Inventory"
   import Information from "./secondWarehouse/Information"
-  import {getLacation, util} from "../API"
+  import {util} from "../API"
+  import moment from 'moment'
 
   let timer;
 
@@ -124,16 +125,18 @@
             title: "近24小时温度及电量监控",
             coldStorage: {
               name: "冷藏库温度",
-              value: [12.0, 10.9, 13.0, 13.2, 12.6, 14.7, 9.6]
+              value: [null, null, 13.0, 13.2, 12.6, 14.7, 9.6]
             },
             freeze: {
               name: "冷冻库温度",
-              value: [0, 0.9, 2.0, 4.4, 2.7, 0.7, -0.5]
+              value: [0, 0.9, 2.0, null, 2.7, 0.7, -0.5]
             },
             electric: {
               name: "电量",
-              value: [4.6, 5.9, 6.0, 6.4, 8.7, 9.7, 8.5]
-            }
+              value: [4.6, 5.9, 6.0, 6.4, 9.6, 9.7, 8.5,4.6, 9.4, 6.0, 6.4, 8.7, 9.7, 8.5,4.6, 5.9, 6.0, 6.4, 8.7, 9.7, 8.5,4.6, 5.9, 6.0, 6.4]
+            },
+            bid:this.$route.params.bid,
+            time:[]
           },
           inventory: {//库存量及库存金额监控
               title: "近24小时收库存量及库存金额监控",
@@ -369,6 +372,10 @@
         }, false);
       },
       getData() {
+
+        /**
+        * 获取备货发货等数据信息
+        **/
         util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
           params: {
             serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
@@ -390,6 +397,9 @@
           err => {
         });
 
+        /**
+        * 获取库存信息
+        **/
         util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
           params: {
             serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
@@ -411,7 +421,9 @@
           console.log(err);
         });
 
-
+/**
+* 获取仓库实时温度
+**/
         util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
           params: {
             serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
@@ -420,25 +432,13 @@
           }
         }).then(response => {
             let res = response.data.data.data?JSON.parse(response.data.data.data):{};
-            console.log(response);
+            this.topData.coldStorage.value=isNaN(res.cold)?'-':res.cold;
+            this.topData.freeze.value=isNaN(res.freeze)?'-':res.freeze;
           },
           err => {
             console.log(err);
           });
 
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
-          params: {
-            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
-            wareHouseId:this.$route.params.bid,
-            method: 'getWarehouse24HTemperateById'
-          }
-        }).then(response => {
-            let res = response.data.data.data?JSON.parse(response.data.data.data):{};
-            console.log('-----------',response);
-          },
-          err => {
-            console.log(err);
-          });
       }
     },
     mounted() {

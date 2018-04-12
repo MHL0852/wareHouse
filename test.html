@@ -1,10 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    tr {
+      border-bottom: 1px solid #0b2e13;
+      height: 20px;
+    }
+
+    th {
+      user-select: none;
+    }
+
+    th, td {
+      min-width: 350px;
+      border: 1px solid #1c7430;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .line {
+      float: right;
+      width: 2px;
+      cursor: col-resize;
+      background: red;
+      height: 20px;
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
-<iframe src="http://localhost:6333/#/secondwarehouse/6" frameborder="0" style="width:1000px;height:500px;"></iframe>
+<div style="overflow: auto">
+  <table style="border: 1px solid #000; width: auto">
+    <col width="200"/>
+    <col width="auto"/>
+    <col width="auto"/>
+    <tr>
+      <th>hello <p class="line"></p></th>
+      <th>world
+        <div class="line"></div>
+      </th>
+      <th>11111111111111111111111111111111 <p class="line"></p></th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+      <td><span>
+        ssssssssssssssssssssssssssssssssssss
+      </span></td>
+      <td>ddddddddddddddddddddddddddd</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  (function () {
+    let initX,
+      initEvent,
+      containerWidth,
+      width,
+      endX;
+    let downFn = function (e) {
+      e = e || window.event;
+
+      if (e.target.className === 'line') {
+        initX = e.clientX;
+        initEvent = e;
+        width = getComputedStyle(initEvent.target.parentNode).width;
+        width = parseFloat(width)
+        window.addEventListener('mousemove', moveFn, false)
+        containerWidth = parseFloat(getComputedStyle(e.target.parentNode.parentNode.parentNode.parentNode).width)
+        console.log(e);
+      }
+    };
+
+    let moveFn = function (e) {
+      e = e || window.event;
+      endX = e.clientX;
+      if (initEvent) {
+        if (Math.abs(endX - initX) >= 10) {
+          initEvent.target.parentNode.width = width + endX - initX;
+          if (!(initEvent.target.parentNode.clientWidth === 352) || !(endX - initX <= 0)) {
+            initEvent.target.parentNode.parentNode.parentNode.parentNode.style.width = containerWidth + endX - initX + 'px';
+          }
+
+        }
+        console.log(e, width);
+        endX = null;
+      }
+    };
+
+    let upFn = function (e) {
+      e = e || window.event;
+      endX = e.clientX;
+      if (initEvent) {
+        let width = getComputedStyle(initEvent.target.parentNode).width;
+        width = parseFloat(width)
+        console.dir(initEvent.target.parentNode);
+        console.log(width, endX, initX);
+        if (Math.abs(endX - initX) >= 10) {
+          initEvent.target.parentNode.width = width + endX - initX;
+        }
+
+        console.log(e, width);
+        initEvent = null;
+        initX = null;
+        endX = null;
+        window.addEventListener('mousemove', moveFn, false)
+      }
+
+    }
+    window.addEventListener('mousedown', downFn, false)
+
+    window.addEventListener('mouseup', upFn, false)
+  })();
+</script>
 </body>
 </html>
+
+
+<div id="show_wlOrderNo_html" style="display: none;width:100%;height:100px;font-size: 12px;">
+  <table id="show_wlOrderNo_html_tab" border='0' cellpadding='0' cellspacing='0'
+         style='border-bottom: 0px; width:100%; height:30px;font-size:14px;margin-top:0;'>
+
+    <div id="test" style="overflow-y: auto; height: 30px; width:100%;">
+      <tr class="show_wlOrderNo_html_queren_quxiao">
+        <td></td>
+        <td>系统单号</td>
+        <td></td>
+        <td>客户单号</td>
+        <td></td>
+        <td>物流运输号</td>
+      </tr>
+      <table id="show_wlOrderNo_html_tab_tab" style="margin:0;"></table>
+      <tr style="text-align:center;">
+        <div style='text-align:center; margin-top: 20px;'>
+          <a href="#" class="button bold icon edit" name="q_update_confirm" id="q_update_confirm"
+             onclick="orderUpdatenum()">确认</a>
+          <a href="#" style='margin-left:50px;' class="button bold danger icon fail" name="q_update_cancle"
+             id="q_update_cancle" onclick="closeLayerOne();">取消</a>
+        </div>
+      </tr>
+    </div>
+  </table>
+</div>
