@@ -47,7 +47,8 @@
   import Temperature from "./secondWarehouse/temperature"
   import Inventory from "./secondWarehouse/Inventory"
   import Information from "./secondWarehouse/Information"
-  import {getLacation,util} from "../API"
+  import {util} from "../API"
+  import {baseUrl,wareListService} from '@/libs/constant'
 
   let timer;
 
@@ -352,9 +353,9 @@
         /**
          * 获取备货发货等数据信息
          **/
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        util(baseUrl, {
           params: {
-            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            serviceName: wareListService,
             wareHouseId:this.$route.params.bid,
             method: 'warehouseMonitoringReport'
           }
@@ -374,9 +375,9 @@
         /**
          * 获取库存信息
          **/
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        util(baseUrl, {
           params: {
-            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            serviceName: wareListService,
             wareHouseId:this.$route.params.bid,
             method: 'warehouseInventoryMessageReport'
           }
@@ -399,9 +400,9 @@
         /**
          * 获取仓库实时温度
          **/
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        util(baseUrl, {
           params: {
-            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            serviceName: wareListService,
             wareHouseId:this.$route.params.bid,
             method: 'getWarehouseTemperateById'
           }
@@ -461,6 +462,7 @@
     top: 20px;
     width: 40px;
     height: 40px;
+    cursor: pointer;
     line-height:20px;
     font-size: 18px;
     color: #fff;

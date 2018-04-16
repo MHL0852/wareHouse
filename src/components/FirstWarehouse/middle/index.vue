@@ -3,18 +3,18 @@
     <div class="wareMiddleTop">
       <img :src="msg.topImgUrl" alt="">
       <div class="wareMiddleText">
-        <span class="grey">当前总库存</span><br/>
+        <span class="grey">{{msg.topTitle}}</span><br/>
         <span class="num">{{msg.topNum}}</span>
-        <span class="grey">方</span>
+        <span class="grey">{{msg.topUnit}}</span>
       </div>
     </div>
     <div class="wareMiddleBody">
       <div class="bodyTop">
         <img :src="msg.middleImgUrl" alt="">
         <div class="bodyTopText">
-          <span class="grey">预计入库</span><br/>
+          <span class="grey">{{msg.middleTitle}}</span><br/>
           <span class="num">{{msg.middleNUm}}</span>
-          <span class="grey">方</span>
+          <span class="grey">{{msg.middleUnit}}</span>
         </div>
       </div>
       <div class="bodyLine"></div>

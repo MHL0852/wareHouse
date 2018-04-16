@@ -15,6 +15,7 @@
   import ButtonPart from './FirstWarehouse/left/ButtonPart'
   import Part from "./FirstWarehouse/part"
   import {getLacation,util} from "../API/index"
+  import {baseUrl,wareListService} from '../libs/constant'
 
   export default {
     name: "first-warehouse",
@@ -70,9 +71,9 @@
         }
       },//退出全屏
       getData() {
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        util(baseUrl, {
           params: {
-            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            serviceName: wareListService,
             method: 'warehouseReport',
             pageNumber: 1,
             pageSize: 4
@@ -161,6 +162,7 @@
     width: 40px;
     height: 40px;
     line-height: 20px;
+    cursor: pointer;
     margin: -20px 0 0 -20px;
     position: absolute;
     font-size: 18px;

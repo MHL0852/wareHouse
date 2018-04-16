@@ -23,6 +23,7 @@
   import ButtonPart from './left/ButtonPart'
   import MiddlePart from './middle'
   import {util} from "../../API"
+  import {baseUrl,wareListService} from '@/libs/constant'
 
   let timer;
 
@@ -95,16 +96,24 @@
           }
         },
         warehouseMiddlePart: {
+          topTitle:'当前总库存',
+          topUnit:'方',
           topNum: 1000,
           topImgUrl: 'static/FirstWarehouse/ware_01.png',
+          middleTitle:'预计入库',
+          middleUnit:'方',
           middleNUm: 168,
           middleImgUrl:'static/FirstWarehouse/ware_03.png',
           finished: 148,
           unfinished: 20
         },
         warehouseRightPart: {
+          topTitle:'平均库龄',
+          topUnit:'天',
           topNum: 13,
           topImgUrl: 'static/FirstWarehouse/ware_02.png',
+          middleTitle:'预计出库',
+          middleUnit:'方',
           middleNUm: 176,
           middleImgUrl:'static/FirstWarehouse/ware_04.png',
           finished: 158,
@@ -118,9 +127,9 @@
         /**
          * 获取订单数据
          **/
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        util(baseUrl, {
           params: {
-            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            serviceName: wareListService,
             method: 'warehouseMonitoringReport',
             wareHouseId: this.msg.id
           }
@@ -141,9 +150,9 @@
         /**
          * 获取库存容积
          **/
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        util(baseUrl, {
           params: {
-            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            serviceName: wareListService,
             method: 'warehouseInventoryMessageReport',
             wareHouseId: this.msg.id
           }
@@ -170,9 +179,9 @@
         /**
          * 获取温度
          **/
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        util(baseUrl, {
           params: {
-            serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+            serviceName: wareListService,
             wareHouseId:this.msg.id,
             method: 'getWarehouseTemperateById'
           }

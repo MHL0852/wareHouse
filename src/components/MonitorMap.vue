@@ -20,10 +20,11 @@
 <script>
   import echarts from 'echarts'
   import Information from './secondWarehouse/Information'
-  import "../../node_modules/echarts/map/js/province/shanghai.js"
-  import "../..//node_modules/echarts/map/js/china.js"
-  import "../../static/map/echarts.min"
-  import {getLacation,util} from "../API"
+  import "@/../node_modules/echarts/map/js/province/shanghai.js"
+  import "../../node_modules/echarts/map/js/china.js"
+  import "@/../static/map/echarts.min"
+  import {util} from "../API"
+  import {baseUrl,wareListService,locationService} from '@/libs/constant'
 
   export default {
     name: "monitor-map",
@@ -197,9 +198,9 @@
         let ware = [],
           shop = [],
           car = [];
-        util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+        util(baseUrl, {
           params: {
-            serviceName: 'com.vtradex.order.api.LocationApi',
+            serviceName: locationService,
             method: 'findOrgLoc',
           }
         }).then(response => {
@@ -372,6 +373,7 @@
     top: 20px;
     width: 40px;
     height: 40px;
+    cursor: pointer;
     line-height:20px;
     font-size: 18px;
     color: #fff;
