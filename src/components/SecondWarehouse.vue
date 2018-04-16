@@ -276,19 +276,25 @@
     },
     methods: {
       init() {
-        let tip =  window.self === window.top
+        let isFullScreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+        this.isFullScreen = isFullScreen? true: false;
+        let tip =  window.self === window.top;
         if(!tip){
           let href=window.location.href;
           window.open(href)
         }else{
-          this.clicks=this.fullScreen;
+          if(this.isFullScreen){
+            this.clicks=this.exitFullscreen
+          }else{
+            this.clicks=this.fullScreen
+          }
         }
       },
       fullScreen() {
         let element = document.documentElement;
         let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
         if (requestMethod) {
-          requestMethod.call(this.$refs.wareContainer);
+          requestMethod.call(document.children[0]);
         } else if (typeof window.ActiveXObject !== "undefined") {
           let wscript = new ActiveXObject("WScript.Shell");
           if (wscript !== null) {
@@ -314,7 +320,7 @@
       },//退出全屏
       screenChange(){
         window.addEventListener("fullscreenchange", () => {
-          this.isFullScreen = !this.isFullScreen;
+          this.isFullScreen = document.fullscreenElement ? true : false;
           if(this.isFullScreen){
             this.clicks=this.exitFullscreen
           }else{
@@ -323,7 +329,7 @@
         },false);
 
         window.addEventListener("mozfullscreenchange", function () {
-          this.isFullScreen = !this.isFullScreen;
+          this.isFullScreen = document.mozFullScreenElement ? true : false;
           if(this.isFullScreen){
             this.clicks=this.exitFullscreen
           }else{
@@ -332,7 +338,7 @@
         }, false);
 
         window.addEventListener("webkitfullscreenchange",  ()=> {
-          this.isFullScreen = !this.isFullScreen;
+          this.isFullScreen = document.webkitFullscreenElement ? true : false;
           if(this.isFullScreen){
             this.clicks=this.exitFullscreen
           }else{
@@ -341,7 +347,7 @@
         }, false);
 
         window.addEventListener("msfullscreenchange", function () {
-          this.isFullScreen = !this.isFullScreen;
+          this.isFullScreen = document.msFullscreenElement ? true : false;
           if(this.isFullScreen){
             this.clicks=this.exitFullscreen
           }else{
