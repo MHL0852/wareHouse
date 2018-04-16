@@ -98,7 +98,8 @@
             method: 'warehouseMonitoringReport',
             wareHouseId:this.msg.id
           }
-        }).then(response => {
+        }).then(
+          response => {
           let data = response.data.data.data;
           data = JSON.parse(data);
             console.log(data);
@@ -123,7 +124,8 @@
             method: 'warehouseInventoryMessageReport',
             wareHouseId:this.msg.id
           }
-        }).then(response => {
+        }).then(
+          response => {
           let data = response.data.data.data;
           data = data?JSON.parse(data):{
                 "coldVolume": 0,
@@ -151,7 +153,8 @@
             wareHouseId:this.msg.id,
             method: 'getWarehouseTemperateById'
           }
-        }).then(response => {
+        }).then(
+          response => {
             let res = response.data.data.data?JSON.parse(response.data.data.data):{};
             this.topValue.wareAbout.temperature=isNaN(res.cold)?'-':res.cold;
             this.bottomValue.wareAbout.temperature=isNaN(res.freeze)?'-':res.freeze;

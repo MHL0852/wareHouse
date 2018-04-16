@@ -160,6 +160,7 @@
   .fullScreen {
     width: 40px;
     height: 40px;
+    cursor: pointer;
     line-height: 20px;
     margin: -20px 0 0 -20px;
     position: absolute;

@@ -125,11 +125,11 @@
             title: "近24小时温度及电量监控",
             coldStorage: {
               name: "冷藏库温度",
-              value: [null, null, 13.0, 13.2, 12.6, 14.7, 9.6]
+              value: []
             },
             freeze: {
               name: "冷冻库温度",
-              value: [0, 0.9, 2.0, null, 2.7, 0.7, -0.5]
+              value: []
             },
             electric: {
               name: "电量",
@@ -372,7 +372,6 @@
         }, false);
       },
       getData() {
-
         /**
         * 获取备货发货等数据信息
         **/
@@ -382,7 +381,8 @@
             wareHouseId: this.$route.params.bid,
             method: 'warehouseMonitoringReport'
           }
-        }).then(response => {
+        }).then(
+          response => {
           let res = JSON.parse(response.data.data.data);
 
           this.topData.topRight[0].num1 = res.waitPickUpOrderNum;
@@ -406,7 +406,8 @@
             wareHouseId: this.$route.params.bid,
             method: 'warehouseInventoryMessageReport'
           }
-        }).then(response => {
+        }).then(
+          response => {
           let res = response.data.data.data ? JSON.parse(response.data.data.data) : {};
 
           let cur = (res.temperateVolume + res.coldVolume + res.freezeVolume) || 0;
@@ -421,16 +422,17 @@
           console.log(err);
         });
 
-/**
-* 获取仓库实时温度
-**/
+        /**
+        * 获取仓库实时温度
+        **/
         util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
           params: {
             serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
             wareHouseId:this.$route.params.bid,
             method: 'getWarehouseTemperateById'
           }
-        }).then(response => {
+        }).then(
+          response => {
             let res = response.data.data.data?JSON.parse(response.data.data.data):{};
             this.topData.coldStorage.value=isNaN(res.cold)?'-':res.cold;
             this.topData.freeze.value=isNaN(res.freeze)?'-':res.freeze;
