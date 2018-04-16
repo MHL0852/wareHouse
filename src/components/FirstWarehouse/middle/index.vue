@@ -101,6 +101,7 @@
 
   .wareMiddleContainer .wareMiddleBody .bodyBottom{
     height: 1rem;
+    white-space: nowrap;
     line-height: 1rem;
   }
 

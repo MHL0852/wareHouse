@@ -124,7 +124,7 @@
   .freeze {
     position: absolute;
     left: 0;
-    width: 2.66rem;
+    width: 100%;
     height: 2.09rem !important;
     background: #3E414D;
     border-bottom: 1px #2a2d3b solid;
@@ -132,7 +132,7 @@
   }
 
   .freeze ul {
-    width: 2.66rem;
+    width: 100%;
     height: 100%;
   }
 
@@ -140,7 +140,7 @@
     display: inline-block;
     border-right: 1px #2a2d3b solid;
     float: left;
-    width: 2.66rem;
+    width: 2.73rem;
     height: 100%;
     background: #3E414D;
   }

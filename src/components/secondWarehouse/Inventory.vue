@@ -41,8 +41,9 @@
           },
           xAxis:
             {
-              name: '  时间',
+              name: '时间',
               nameLocation: "end",
+              nameGap:30,
               nameTextStyle: {
                 color: "#fff",
                 fontSize: 14,
@@ -87,8 +88,8 @@
               type: 'value',
               name: '库存(方)',
               min: 0,
-              max: 1500,
-              splitNumber: 6,
+              // max: 1500,
+              splitNumber: 5,
               position: 'left',
               axisTick: {
                 show: false
@@ -109,7 +110,7 @@
 
               },
               splitLine:{
-                show:true,
+                show:false,
                 lineStyle:{
                   color:"#ddd"
                 }
@@ -119,8 +120,8 @@
               type: 'value',
               name: '库存金额(元)',
               min: 0,
-              max: 15000,
-              splitNumber: 6,
+              // max: 15000,
+              splitNumber: 5,
               position: 'right',
               offset: 0,
               splitLine:{

@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const getLacation = "http//quickxs.56linked.com/vcloudwood-gateway/vcloudwood/gateway/query.v";
-let devURL = 'https://gw.56linked.com';
-let prodURL = 'http://quickxs.56linked.com';
+let localUrl='https://gwt.56linked.com';//本地调接口
+let devURL = 'http://testllservice.56linked.cn';//测试环境
+let prodURL = 'http://quickxs.56linked.com';//正式环境
 let util = axios.create({
   baseURL: devURL
 });

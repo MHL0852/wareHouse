@@ -3,7 +3,7 @@
     <div class="top"><h4>库龄分析</h4></div>
     <div class="body">
       <div class="pie" id="charts">
-        <div id="main" ref="analyzePie" style="width: 4rem;height:3rem;"></div>
+        <div id="main" ref="analyzePie" style="width: 100%;height:3rem;"></div>
       </div>
     </div>
   </div>
