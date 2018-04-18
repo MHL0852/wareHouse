@@ -13,7 +13,7 @@
         <img :src="msg.middleImgUrl" alt="">
         <div class="bodyTopText">
           <span class="grey">{{msg.middleTitle}}</span><br/>
-          <span class="num">{{msg.middleNUm}}</span>
+          <span class="num">{{msg.middleNum}}</span>
           <span class="grey">{{msg.middleUnit}}</span>
         </div>
       </div>

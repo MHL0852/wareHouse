@@ -23,7 +23,7 @@
   import ButtonPart from './left/ButtonPart'
   import MiddlePart from './middle'
   import {util} from "../../API"
-  import {baseUrl,wareListService} from '@/libs/constant'
+  import {baseUrl, wareListService} from '@/libs/constant'
 
   let timer;
 
@@ -96,26 +96,26 @@
           }
         },
         warehouseMiddlePart: {
-          topTitle:'当前总库存',
-          topUnit:'方',
+          topTitle: '当前总库存',
+          topUnit: '方',
           topNum: 1000,
           topImgUrl: 'static/FirstWarehouse/ware_01.png',
-          middleTitle:'预计入库',
-          middleUnit:'方',
-          middleNUm: 168,
-          middleImgUrl:'static/FirstWarehouse/ware_03.png',
+          middleTitle: '预计入库',
+          middleUnit: '方',
+          middleNum: 168,
+          middleImgUrl: 'static/FirstWarehouse/ware_03.png',
           finished: 148,
           unfinished: 20
         },
         warehouseRightPart: {
-          topTitle:'平均库龄',
-          topUnit:'天',
+          topTitle: '平均库龄',
+          topUnit: '天',
           topNum: 13,
           topImgUrl: 'static/FirstWarehouse/ware_02.png',
-          middleTitle:'预计出库',
-          middleUnit:'方',
-          middleNUm: 176,
-          middleImgUrl:'static/FirstWarehouse/ware_04.png',
+          middleTitle: '预计出库',
+          middleUnit: '方',
+          middleNum: 176,
+          middleImgUrl: 'static/FirstWarehouse/ware_04.png',
           finished: 158,
           unfinished: 18
         }
@@ -135,17 +135,17 @@
           }
         }).then(
           response => {
-          let data = response.data.data.data;
-        data = JSON.parse(data);
-        this.warehouseLeftPart.topValue.val[0].num = data.waitPickUpOrderNum;
-        this.warehouseLeftPart.topValue.val[1].num = data.waitSendOrderNum;
-        this.warehouseLeftPart.topValue.val[2].num = data.overOrderNumToday;
-        this.warehouseLeftPart.bottomValue.val[0].num = data.waitPickUpGoodsNum;
-        this.warehouseLeftPart.bottomValue.val[1].num = data.waitSendGoodsNum;
-        this.warehouseLeftPart.bottomValue.val[2].num = data.overGoodsNumToday;
-      }).catch(err => {
+            let data = response.data.data.data;
+            data = JSON.parse(data);
+            this.warehouseLeftPart.topValue.val[0].num = data.waitPickUpOrderNum;
+            this.warehouseLeftPart.topValue.val[1].num = data.waitSendOrderNum;
+            this.warehouseLeftPart.topValue.val[2].num = data.overOrderNumToday;
+            this.warehouseLeftPart.bottomValue.val[0].num = data.waitPickUpGoodsNum;
+            this.warehouseLeftPart.bottomValue.val[1].num = data.waitSendGoodsNum;
+            this.warehouseLeftPart.bottomValue.val[2].num = data.overGoodsNumToday;
+          }).catch(err => {
           console.log(err);
-      });
+        });
 
         /**
          * 获取库存容积
@@ -158,23 +158,62 @@
           }
         }).then(
           response => {
-          let data = response.data.data.data ||
-            JSON.stringify({
-              "wareHouseId": 0,
-              "coldVolume": 0,
-              "freezeVolume": 0,
-              "coldVolumeTotal": 0,
-              "freezeVolumeTotal": 0
-            });
-        data = JSON.parse(data);
-        this.warehouseLeftPart.topValue.wareAbout.cur = data.coldVolume;//冷藏库存
-        this.warehouseLeftPart.bottomValue.wareAbout.cur = data.freezeVolume;//冷冻库存
-        this.warehouseLeftPart.topValue.wareAbout.full = data.coldVolumeTotal;//冷藏总容积
-        this.warehouseLeftPart.bottomValue.wareAbout.full = data.freezeVolumeTotal;//冷冻总容积
-        this.flag = true;
-      }).catch(err => {
+            let data = response.data.data.data ||
+              JSON.stringify({
+                "wareHouseId": 0,
+                "coldVolume": 0,
+                "freezeVolume": 0,
+                "coldVolumeTotal": 0,
+                "freezeVolumeTotal": 0
+              });
+            data = JSON.parse(data);
+            this.warehouseLeftPart.topValue.wareAbout.cur = data.coldVolume;//冷藏库存
+            this.warehouseLeftPart.bottomValue.wareAbout.cur = data.freezeVolume;//冷冻库存
+            this.warehouseLeftPart.topValue.wareAbout.full = data.coldVolumeTotal;//冷藏总容积
+            this.warehouseLeftPart.bottomValue.wareAbout.full = data.freezeVolumeTotal;//冷冻总容积
+            this.flag = true;
+          }).catch(err => {
           console.log(err);
-      });
+        });
+
+        /**
+         * 获取总库存和库龄
+         **/
+        util(baseUrl, {
+          params: {
+            serviceName: wareListService,
+            method: 'getWareHouseStatisticsInfoById',
+            // wareHouseId: this.msg.id
+            wareHouseId: 1023
+          }
+        }).then(
+          response => {
+            let data = response.data.data.data;
+            data = JSON.parse(data);
+            let {
+              expectReceiveDoQuantity = 0,
+              expectReceiveDoingQuantity = 0,
+              expectReceiveQuantity = 0,
+              expectShipmentDoQuantity = 0,
+              expectShipmentDoingQuantity = 0,
+              expectShipmentQuantity = 0,
+              goodsRemainAveTime = 0,
+              goodsTotalVolume = 1000,
+            } = data;
+
+            this.warehouseMiddlePart.topNum = goodsTotalVolume;
+            this.warehouseMiddlePart.middleNum =expectReceiveQuantity;
+            this.warehouseMiddlePart.finished = expectReceiveDoQuantity;
+            this.warehouseMiddlePart.unfinished =expectReceiveDoingQuantity ;
+
+            this.warehouseRightPart.topNum = goodsRemainAveTime;
+            this.warehouseRightPart.middleNum = expectShipmentQuantity;
+            this.warehouseRightPart.finished = expectShipmentDoQuantity;
+            this.warehouseRightPart.unfinished = expectShipmentDoingQuantity;
+
+          }).catch(err => {
+          console.log(err);
+        });
 
         /**
          * 获取温度
@@ -182,14 +221,14 @@
         util(baseUrl, {
           params: {
             serviceName: wareListService,
-            wareHouseId:this.msg.id,
+            wareHouseId: this.msg.id,
             method: 'getWarehouseTemperateById'
           }
         }).then(
           response => {
-            let res = response.data.data.data?JSON.parse(response.data.data.data):{};
-            this.warehouseLeftPart.topValue.wareAbout.temperature=isNaN(res.cold)?'-':res.cold;
-            this.warehouseLeftPart.bottomValue.wareAbout.temperature=isNaN(res.freeze)?'-':res.freeze;
+            let res = response.data.data.data ? JSON.parse(response.data.data.data) : {};
+            this.warehouseLeftPart.topValue.wareAbout.temperature = isNaN(res.cold) ? '-' : res.cold;
+            this.warehouseLeftPart.bottomValue.wareAbout.temperature = isNaN(res.freeze) ? '-' : res.freeze;
 
           },
           err => {

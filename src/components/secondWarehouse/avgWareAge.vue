@@ -22,15 +22,15 @@
       let option = {
         color:['#fff','#000','#fff'],
         tooltip: {
-          formatter: "{a} <br/>{b} : {c}%"
+          formatter: "{b} : {c}天"
         },
         series: [
           {
-            name: '业务指标',
+            name: '平均库龄',
             type: 'gauge',
             radius:'90%',
             axisLine:{
-              lineStyle: {       // 属性lineStyle控制线条样式
+              lineStyle: { // 属性lineStyle控制线条样式
                 width: 16,
                 color:[[0.2,'#9acb62'],[0.8,'#60c1dd'],[1,'#fd8761']]
               }

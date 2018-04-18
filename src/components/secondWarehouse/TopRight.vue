@@ -71,7 +71,6 @@
     text-align: left;
     font-size: .26rem;
     font-weight: bold;
-    margin-right: .08rem;
     color: #fff;
   }
 
@@ -159,6 +158,7 @@
   }
 
   .topRight .text .wareDetailUnfinished {
+    white-space: nowrap;
     height: 40%;
     margin-bottom: 3%;
     width: 100%;

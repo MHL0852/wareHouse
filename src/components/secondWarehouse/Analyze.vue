@@ -11,7 +11,8 @@
 
 <script>
   import echarts from "echarts"
-  import {getLacation,util} from "../../API"
+  import {util} from "../../API"
+  import {baseUrl, wareListService} from '@/libs/constant'
   export default {
     name: "Analyze",
     props:["msg"],
@@ -19,9 +20,9 @@
       let myEchart = echarts.init(this.$refs.analyzePie);
       window.addEventListener("resize",myEchart.resize);
 
-      util("/vcloudwood-gateway/vcloudwood/gateway/query.v", {
+      util(baseUrl, {
         params: {
-          serviceName: 'com.vtradex.wms.api.inventory.InventoryApi',
+          serviceName:wareListService,
           method: 'warehouseMonitoringPieChartReport',
           wareHouseId:this.$route.params.bid
         }

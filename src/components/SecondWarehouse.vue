@@ -48,7 +48,7 @@
   import Inventory from "./secondWarehouse/Inventory"
   import Information from "./secondWarehouse/Information"
   import {util} from "../API"
-  import {baseUrl, wareListService} from '@/libs/constant'
+  import {baseUrl, wareListService,testAboutHh} from '@/libs/constant'
 
   let timer;
 
@@ -369,16 +369,20 @@
         }).then(
           response => {
             let res = response.data.data.data ? JSON.parse(response.data.data.data) : {};
-            let {temperateVolume = 0, coldVolume = 0, freezeVolume = 0,temperateVolumeTotal = 0, coldVolumeTotal = 0,freezeVolumeTotal = 0} = res;
-            let cur = (parseFloat(temperateVolume) + parseFloat(coldVolume) + parseFloat(freezeVolume)) || 0;
-            let full = (parseFloat(temperateVolumeTotal) +parseFloat(coldVolumeTotal) +parseFloat(freezeVolumeTotal)) || 0;
-            let usableVolume = full - cur ;
+            let {
+              warehouseStoreVolume = 0,
+              warehouseTotalVolume = 0,
+              warehouseAvailableVolume = 0
+            } = res;
+            let cur = parseFloat(warehouseStoreVolume).toFixed(1) || 0;
+            let full = parseFloat(warehouseTotalVolume).toFixed(1) || 0;
+            let usableVolume = parseFloat(warehouseAvailableVolume) ;
 
             this.topData.allRepertory[0].number = cur;
             this.topData.allRepertory[1].number = usableVolume;
             let ratio = cur / full < 1 ? cur / full * 100 : 100;
             ratio = ratio > 0 ? ratio : 0;
-            this.topData.allRepertory[2].number = Math.round(ratio);
+            this.topData.allRepertory[2].number = ratio.toFixed(1);
           },
           err => {
             console.log(err);
@@ -398,6 +402,75 @@
             let res = response.data.data.data ? JSON.parse(response.data.data.data) : {};
             this.topData.coldStorage.value = isNaN(res.cold) ? '-' : res.cold;
             this.topData.freeze.value = isNaN(res.freeze) ? '-' : res.freeze;
+          },
+          err => {
+            console.log(err);
+          });
+
+        /**
+        * 获取出入库相关数据
+        **/
+
+        //入库
+        util(baseUrl, {
+          params: {
+            serviceName: wareListService,
+            wareHouseId: this.$route.params.bid,
+            method: 'getWarehouseReceiveInfoById'
+          }
+        }).then(
+          response => {
+            let index = 0;
+            let res = response.data.data.data ? JSON.parse(response.data.data.data) : {};
+            let {
+              storageInDoneNum = 0,
+              storageInDoneQuantity = 0,
+              storageInDoneVolume = 0,
+              storageInDoingNumm = 0,
+              storageInDoingQuantity = 0,
+              storageInDoingVolume = 0,
+            } = res;
+            //已完成
+            this.topData.topRight[index].wareDetailFinished.num1 = storageInDoneNum;
+            this.topData.topRight[index].wareDetailFinished.num2 = storageInDoneQuantity;
+            this.topData.topRight[index].wareDetailFinished.num3 = storageInDoneVolume;
+
+            //未完成
+            this.topData.topRight[index].wareDetailUnfinished.num1 = storageInDoingNumm;
+            this.topData.topRight[index].wareDetailUnfinished.num2 = storageInDoingQuantity;
+            this.topData.topRight[index].wareDetailUnfinished.num3 = storageInDoingVolume.toFixed(1);
+          },
+          err => {
+            console.log(err);
+          });
+        //出库
+        util(baseUrl, {
+          params: {
+            serviceName: wareListService,
+            wareHouseId: this.$route.params.bid,
+            method: 'getWarehouseShipmentInfoById'
+          }
+        }).then(
+          response => {
+            let index = 1 ;
+            let res = response.data.data.data ? JSON.parse(response.data.data.data) : {};
+            let {
+              shipmentInDoingNumm = 0,
+              shipmentInDoingQuantity = 0,
+              shipmentInDoingVolume = 0,
+              shipmentInDoneNum = 0,
+              shipmentInDoneQuantity = 0,
+              shipmentInDoneVolume = 0,
+            } = res;
+            //已完成
+            this.topData.topRight[index].wareDetailFinished.num1 = shipmentInDoneNum;
+            this.topData.topRight[index].wareDetailFinished.num2 = shipmentInDoneQuantity;
+            this.topData.topRight[index].wareDetailFinished.num3 = shipmentInDoneVolume;
+
+            //未完成
+            this.topData.topRight[index].wareDetailUnfinished.num1 = shipmentInDoingNumm;
+            this.topData.topRight[index].wareDetailUnfinished.num2 = shipmentInDoingQuantity;
+            this.topData.topRight[index].wareDetailUnfinished.num3 = shipmentInDoingVolume.toFixed(1);
           },
           err => {
             console.log(err);
