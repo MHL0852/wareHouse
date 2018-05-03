@@ -39,9 +39,10 @@
           wareHouseVolumn-=item.totalVolumn||0;
           data.push({
             "name":item.sellerName,
-            "value":item.totalVolumn
+            "value":item.totalVolumn.toFixed(2)
           })
         });
+        wareHouseVolumn=wareHouseVolumn>0?wareHouseVolumn:0;
         names.push("仓库空余");
         values.push(wareHouseVolumn);
         data.push({

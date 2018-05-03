@@ -6,7 +6,7 @@ let devUrl = 'http://192.168.1.181:22226'; //胡欢
 let devURL = 'http://testllservice.56linked.cn';//测试环境
 let prodURL = 'http://quickxs.56linked.com';//正式环境
 let util = axios.create({
-  baseURL: devURL
+  baseURL: prodURL
 });
 
 export {

@@ -42,10 +42,12 @@
   }
 
   .num {
+    color: #fff;
+    max-width: 2rem;
     font-size: .28rem;
     font-weight: bold;
     margin-right: .05rem;
-    color: #fff;
+    display: inline-block;
   }
 
   .wareMiddleContainer {

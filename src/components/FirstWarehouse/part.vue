@@ -5,8 +5,8 @@
     </div>
     <div class="body">
       <div class="warehouseLeftPart clearfix">
-        <TopPart :msg="warehouseLeftPart.topValue" v-if="flag"></TopPart>
-        <ButtonPart :msg="warehouseLeftPart.bottomValue" v-if="flag"></ButtonPart>
+        <TopPart :msg="warehouseLeftPart.topValue"></TopPart>
+        <ButtonPart :msg="warehouseLeftPart.bottomValue"></ButtonPart>
       </div>
       <div class="warehouseMiddlePart clearfix">
         <MiddlePart :msg="warehouseMiddlePart"></MiddlePart>
@@ -32,7 +32,6 @@
     props: ["msg"],
     data() {
       return {
-        flag: false,
         name: '仓库1',
         warehouseLeftPart: {
           topValue: {
@@ -98,29 +97,28 @@
         warehouseMiddlePart: {
           topTitle: '当前总库存',
           topUnit: '方',
-          topNum: 1000,
+          topNum: 0,
           topImgUrl: 'static/FirstWarehouse/ware_01.png',
           middleTitle: '预计入库',
           middleUnit: '方',
-          middleNum: 168,
+          middleNum: 0,
           middleImgUrl: 'static/FirstWarehouse/ware_03.png',
-          finished: 148,
-          unfinished: 20
+          finished: 0,
+          unfinished: 0
         },
         warehouseRightPart: {
           topTitle: '平均库龄',
           topUnit: '天',
-          topNum: 13,
+          topNum: 0,
           topImgUrl: 'static/FirstWarehouse/ware_02.png',
           middleTitle: '预计出库',
           middleUnit: '方',
-          middleNum: 176,
+          middleNum: 0,
           middleImgUrl: 'static/FirstWarehouse/ware_04.png',
-          finished: 158,
-          unfinished: 18
+          finished: 0,
+          unfinished: 0
         }
       }
-      //TODO 温度没数据
     },
     methods: {
       getData() {
@@ -183,8 +181,7 @@
           params: {
             serviceName: wareListService,
             method: 'getWareHouseStatisticsInfoById',
-            // wareHouseId: this.msg.id
-            wareHouseId: 1023
+            wareHouseId: this.msg.id
           }
         }).then(
           response => {

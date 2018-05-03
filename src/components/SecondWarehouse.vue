@@ -67,19 +67,19 @@
           allRepertory: [
             {//总库存
               title: "当前库存总量",
-              number: '-',
+              number: 0,
               unit: "方",
               imgUrl: "static/SecondWarehouse/ware_top1_01.png"
             },
             {//总库存
               title: "可用空间",
-              number: '-',
+              number: 0,
               unit: "方",
               imgUrl: "static/SecondWarehouse/ware_top1_05.png"
             },
             {//总库存
               title: "库满度",
-              number: '-',
+              number: 0,
               unit: "%",
               imgUrl: "static/SecondWarehouse/ware_top1_02.png"
             }
@@ -102,17 +102,17 @@
               imgUrl: "static/SecondWarehouse/ware_top1_06.png",
               color: '#fe8463',
               wareDetailFinished: {
-                num1: 15,
-                num2: 168,
-                num3: 868,
+                num1: 0,
+                num2: 0,
+                num3: 0,
                 unit1: "单",
                 unit2: '件',
                 unit3: '方'
               },
               wareDetailUnfinished: {
-                num1: 8,
-                num2: 50,
-                num3: 300,
+                num1: 0,
+                num2: 0,
+                num3: 0,
                 unit1: "单",
                 unit2: '件',
                 unit3: '方'
@@ -123,17 +123,17 @@
               imgUrl: "static/SecondWarehouse/ware_top1_07.png",
               color: '#9bca63',
               wareDetailFinished: {
-                num1: 15,
-                num2: 168,
-                num3: 868,
+                num1: 0,
+                num2: 0,
+                num3: 0,
                 unit1: "单",
                 unit2: '件',
                 unit3: '方'
               },
               wareDetailUnfinished: {
-                num1: 8,
-                num2: 50,
-                num3: 300,
+                num1: 0,
+                num2: 0,
+                num3: 0,
                 unit1: "单",
                 unit2: '件',
                 unit3: '方'
@@ -377,6 +377,7 @@
             let cur = parseFloat(warehouseStoreVolume).toFixed(1) || 0;
             let full = parseFloat(warehouseTotalVolume).toFixed(1) || 0;
             let usableVolume = parseFloat(warehouseAvailableVolume) ;
+            usableVolume=usableVolume>0?usableVolume:0;
 
             this.topData.allRepertory[0].number = cur;
             this.topData.allRepertory[1].number = usableVolume;
