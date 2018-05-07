@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import FirstWarehouse from '@/components/FirstWarehouse'
-// import SecondWarehouse from '@/components/SecondWarehouse'
-// import MonitorMap from '@/components/MonitorMap'
-// import BaiduMap from '@/components/baiduMap'
+import FirstWarehouse from '@/components/FirstWarehouse'
+import SecondWarehouse from '@/components/SecondWarehouse'
+import MonitorMap from '@/components/MonitorMap'
+import BaiduMap from '@/components/baiduMap'
+import trackMap from '@/components/trackMap'
 
 Vue.use(Router)
 
@@ -15,25 +16,25 @@ export default new Router({
     },
     {
       path: '/monitormap',
-      component: resolve => require(['@/components/MonitorMap'], resolve)
+      component: MonitorMap
     },
     {
       path: '/baidumap',
-      component: resolve => require(['@/components/baiduMap'], resolve),
+      component: BaiduMap
     },
     {
       path: '/firstwarehouse',
-      component: resolve => require(['@/components/FirstWarehouse'], resolve),
+      component: FirstWarehouse,
       name:"firstwarehouse"
     },
     {
       path: '/secondwarehouse/:bid',
-      component: resolve => require(['@/components/SecondWarehouse'], resolve),
+      component: SecondWarehouse,
       name:"wareDetail"
     },
     {
       path: '/trackMap',
-      component: resolve => require(['@/components/trackMap'], resolve),
+      component: trackMap,
       name: "trackMap"
     },
     {
