@@ -24,8 +24,8 @@ export default {
       map.centerAndZoom(new BMap.Point(121.487899486, 31.24916171), 14);
       map.enableScrollWheelZoom(true);
 
-      const wareIcon = new BMap.Icon('../../static/img/icon_qzc.png', new BMap.Size(30,32));
-      const vehicleIcon = new BMap.Icon('../../static/img/icon_qs.png', new BMap.Size(30,30));
+      const wareIcon = new BMap.Icon('static/trackMap/icon_qzc.png', new BMap.Size(30,32));
+      const vehicleIcon = new BMap.Icon('static/trackMap/icon_qs.png', new BMap.Size(30,30));
 
       // 仓库
       util(baseUrl, {
