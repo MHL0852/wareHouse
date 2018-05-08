@@ -7,3 +7,6 @@ export const wareListService = 'com.vtradex.wms.api.inventory.InventoryApi';
 
 //获取位置
 export const locationService = 'com.vtradex.order.api.LocationApi';
+
+//获取车辆信息
+export const positionOfCar = 'com.vtradex.tms.server.api.TmsService';
