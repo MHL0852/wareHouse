@@ -10,3 +10,8 @@ export const locationService = 'com.vtradex.order.api.LocationApi';
 
 //获取车辆信息
 export const positionOfCar = 'com.vtradex.tms.server.api.TmsService';
+// 仓库
+export const wareHouseService = 'com.vtradex.order.api.LocationApi';
+
+// 在途车辆
+export const vehicleService = 'com.vtradex.tms.server.api.TmsService';
