@@ -5,6 +5,7 @@ import SecondWarehouse from '@/components/SecondWarehouse'
 import MonitorMap from '@/components/MonitorMap'
 import BaiduMap from '@/components/baiduMap'
 import trackMap from '@/components/trackMap'
+import orderDetail from '@/components/orderDetail/index'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/trackMap',
       component: trackMap,
       name: "trackMap"
+    },
+    {
+      path: '/orderDetail/:unikey/:id',
+      component: orderDetail,
+      name: "orderDetail"
     },
     {
       path:'*',
