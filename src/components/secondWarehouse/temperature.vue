@@ -90,8 +90,9 @@
 
                 },
                 axisLabel: {
+                  rotate: 45,
                   color: "#727483",
-                  formatter: '{value}'
+                  // formatter: '{value}'
                 },
                 axisTick: {
                   show: false,
@@ -275,8 +276,9 @@
 
                       },
                       axisLabel: {
+                        rotate: 45,
                         color: "#727483",
-                        formatter: '{value}'
+                        // formatter: '{value}'
                       },
                       axisTick: {
                         show: false,
