@@ -4,7 +4,7 @@
       <img :src="msg.topImgUrl" alt="">
       <div class="wareMiddleText">
         <span class="grey">{{msg.topTitle}}</span><br/>
-        <span class="num">{{msg.topNum}}</span>
+        <span class="num">{{formatValue(msg.topNum)}}</span>
         <span class="grey">{{msg.topUnit}}</span>
       </div>
     </div>
@@ -32,7 +32,16 @@
   export default {
     name: "index",
     props: ['msg'],
-
+    methods: {
+      /*
+      * 保留2位小数
+      */
+      formatValue(v){
+        if(!v) return ''
+        var val = parseFloat(v)
+        return val.toFixed('2')
+      }
+    }
   }
 </script>
 
