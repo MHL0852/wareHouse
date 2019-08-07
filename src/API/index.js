@@ -6,7 +6,7 @@ let devURL = 'http://testllservice.56linked.cn';//测试环境
 let prodURL = 'http://www.quickxs.com';//正式环境
 
 let util = axios.create({
-  baseURL: prodURL
+  baseURL: devURL
 });
 
 export {

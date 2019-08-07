@@ -27,7 +27,7 @@ export default {
       var receivePoint = []; // 收货点、仓库、骑手相关
       var timer = null;
 
-      map.centerAndZoom(new BMap.Point(121.487899486, 31.24916171), 14);
+      map.centerAndZoom(new BMap.Point(121.487899486, 31.24916171), 10);
       map.enableScrollWheelZoom(true);
 
       const wareIcon = new BMap.Icon('static/trackMap/icon_zc.png', new BMap.Size(26,21)); // 总仓
@@ -58,7 +58,9 @@ export default {
       util(baseUrl, {
         params: {
           serviceName: 'com.vtradex.order.api.WarehouseApi',
-          method: 'findWarehouseList'
+          method: 'findWarehouseList',
+          onlineType: 1,
+          type: 2
         }
       }).then(response => {
         wareData = JSON.parse(response.data.data.data)
@@ -98,10 +100,10 @@ export default {
           }
         }, this);
 
-        timer = setTimeout(function(){
-          map.setViewport(pointArray);
-          clearTimeout(timer)
-        }, 100)
+        // timer = setTimeout(function(){
+        //   map.setViewport(pointArray);
+        //   clearTimeout(timer)
+        // }, 100)
       })
 
       // 仓库点击事件
@@ -179,10 +181,10 @@ export default {
           }
         }, this);
 
-        timer = setTimeout(function(){
-          map.setViewport(pointArray);
-          clearTimeout(timer)
-        }, 100)
+        // timer = setTimeout(function(){
+        //   map.setViewport(pointArray);
+        //   clearTimeout(timer)
+        // }, 100)
       })
 
       // 骑手点击事件
@@ -242,10 +244,10 @@ export default {
             })
           })
 
-          timer = setTimeout(function(){
-            map.setViewport(receivePoint);
-            clearTimeout(timer)
-          }, 100)
+          // timer = setTimeout(function(){
+          //   map.setViewport(receivePoint);
+          //   clearTimeout(timer)
+          // }, 100)
 
           var vectorStar = new BMap.Marker(vvPoint, {
             icon: new BMap.Symbol(BMap_Symbol_SHAPE_STAR, {
