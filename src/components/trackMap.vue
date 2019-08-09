@@ -79,8 +79,7 @@ export default {
 
             // 弹层
             wareType = item.type == '1' ? '总仓' : '前置仓'
-            wareAddress = item.locationProvince+item.locationCity+item.locationDistrict+item.locationAddress
-            wareAddress = wareAddress ? wareAddress : ''
+            wareAddress = (item.locationProvince?item.locationProvince:'') + (item.locationCity?item.locationCity:'') + (item.locationDistrict?item.locationDistrict:'') + (item.locationAddress?item.locationAddress:'')
             wLabel = new BMap.Label('<div class="ware_detal">'
               + '<p>仓路类型：'+ wareType +'</p>'
               + '<p>仓库名称：'+ item.orgName +'</p>'
